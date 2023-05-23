@@ -49,4 +49,10 @@ class AppFont {
     color: Colors.black,
     fontSize: 18,
   );
+  static final title_connected = TextStyle(
+    fontFamily: 'Pacifico',
+    fontWeight: FontWeight.w600,
+    color: Colors.black,
+    fontSize: 18,
+  );
 }

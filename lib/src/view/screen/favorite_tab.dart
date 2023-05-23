@@ -17,17 +17,14 @@ class FavoriteTab extends StatelessWidget {
           const SizedBox(height: 50),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text("Aucun produit favorisé "),
-              Icon(Icons.info_rounded)
-            ],
+            children: const [Text("אין מוצר מועדף"), Icon(Icons.info_rounded)],
           ),
-         const  Center(
+          const Center(
             child: Padding(
               padding:
                   EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 60),
               child: Text(
-                "Vous pouvez favoriser une tenue en cliquant sur le bouton j'aime ",
+                "אתה יכול להוסיף בגדים למאוהבים עלי על ידי לחיצה על כפתור הלייק",
                 style: TextStyle(fontSize: 10, fontWeight: FontWeight.w400),
               ),
             ),
@@ -36,10 +33,11 @@ class FavoriteTab extends StatelessWidget {
               onPressed: () {
                 print("DEBUG: Favorite TAB Button presssed");
               },
-              child: const Text("Retour à la page d'accueil"),
+              child: const Text("חזרה לדף הבית"),
               style: ElevatedButton.styleFrom(
                   primary: Colors.black,
-                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                   textStyle: const TextStyle(
                       fontSize: 15,
                       color: Colors.white,

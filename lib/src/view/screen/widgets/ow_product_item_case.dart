@@ -11,30 +11,65 @@ class ProductItemCase extends StatelessWidget {
     return Container(
       height: 200,
       width: 200,
-      margin: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+      margin: EdgeInsets.symmetric(vertical: 15, horizontal: 0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.asset(
-            product!.urlImage!.first,
-            fit: BoxFit.contain,
-            scale: 25 / 3,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(product!.title!),
-              IconButton(
-                icon: Icon(Icons.favorite_border_sharp),
-                onPressed: () {
-                  print("DEBUG: Like button Pressed");
-                },
+          Ink(
+            height: 200,
+            width: 200,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                scale: 25 / 3,
+                fit: BoxFit.contain,
+                image: !product!.urlImage!.first.toString().startsWith("assets")
+                    ? NetworkImage(product!.urlImage!.first.toString())
+                    : AssetImage(product!.urlImage!.first) as ImageProvider,
               ),
-            ],
+            ),
+            child: InkWell(
+              onTap: () {
+                final snackBar = SnackBar(
+                  content: const Text('تكبسش هون ولا'),
+                  action: SnackBarAction(
+                    label: 'Undo',
+                    onPressed: () {
+                      // Some code to undo the change.
+                    },
+                  ),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              },
+              splashColor: Colors.brown.withOpacity(0.5),
+            ),
           ),
-          Text(product!.description!),
+          // Image.asset(
+          //   product!.urlImage!.first,
+          //   fit: BoxFit.contain,
+          //   scale: 25 / 3,
+          // ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 0, horizontal: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(product!.title!),
+                IconButton(
+                  icon: Icon(Icons.favorite_border_sharp),
+                  onPressed: () {
+                    print("DEBUG: Like button Pressed");
+                  },
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 0, horizontal: 15),
+            child: Text(product!.description!),
+          ),
+
           Spacer(),
         ],
       ),

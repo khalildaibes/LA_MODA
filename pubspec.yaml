@@ -34,6 +34,14 @@ dependencies:
   page_transition: ^2.0.2
   badges: ^2.0.1
   fluttertoast: ^8.0.7
+  firebase_core: ^2.10.0
+  cloud_firestore: ^4.5.3
+  firebase_database: ^10.1.1
+  firebase_auth: ^4.4.2
+  shared_preferences: ^2.1.0
+  firebase_messaging: ^14.4.1
+  firebase_storage: ^11.2.0
+  flutter_cache_manager: ^3.3.0
 
 dev_dependencies:
   flutter_test:
@@ -78,6 +86,12 @@ flutter:
           weight: 600
         - asset: assets/font/metropolis.semi-bold.ttf
           weight: 700
+          # Pacifico-Regular.ttf
+    - family: Pacifico
+      fonts:
+        - asset: assets/font/Pacifico-Regular.ttf
+          weight: 700
+       
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf

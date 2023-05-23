@@ -23,7 +23,7 @@ class RecentViewScreen extends StatelessWidget {
           ),
         ),
         title: Text(
-          "commentaires",
+          "התראות",
           style: AppFont.semiBold.copyWith(
             fontWeight: FontWeight.bold,
           ),

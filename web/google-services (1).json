@@ -1,0 +1,40 @@
+{
+    "project_info": {
+        "project_number": "703256872060",
+        "firebase_url": "https://la-moda-2c50c-default-rtdb.asia-southeast1.firebasedatabase.app",
+        "project_id": "la-moda-2c50c",
+        "storage_bucket": "la-moda-2c50c.appspot.com"
+    },
+    "client": [{
+        "client_info": {
+            "mobilesdk_app_id": "1:703256872060:android:0c65f94acbe093700775f9",
+            "android_client_info": {
+                "package_name": "com.example.owanto_app"
+            }
+        },
+        "oauth_client": [{
+            "client_id": "703256872060-bh2lac5siat3ocdpbo2dv9g4fc3bhn2r.apps.googleusercontent.com",
+            "client_type": 3
+        }],
+        "api_key": [{
+            "current_key": "AIzaSyCx8sZrAPlRPT1RWnTFp6Zqh8b9KwYAHm8"
+        }],
+        "services": {
+            "appinvite_service": {
+                "other_platform_oauth_client": [{
+                        "client_id": "703256872060-bh2lac5siat3ocdpbo2dv9g4fc3bhn2r.apps.googleusercontent.com",
+                        "client_type": 3
+                    },
+                    {
+                        "client_id": "703256872060-pr4907t844n7qbdh9356arflnhgu086m.apps.googleusercontent.com",
+                        "client_type": 2,
+                        "ios_info": {
+                            "bundle_id": "com.example.owantoApp"
+                        }
+                    }
+                ]
+            }
+        }
+    }],
+    "configuration_version": "1"
+}

@@ -12,6 +12,8 @@ class CustomSearchBar extends StatelessWidget {
         trailing: SizedBox(
           width: 300,
           child: TextField(
+            textAlign: TextAlign.end,
+            textDirection: TextDirection.rtl,
             cursorColor: Colors.black,
             decoration: InputDecoration(
                 fillColor: Colors.black,
@@ -22,7 +24,7 @@ class CustomSearchBar extends StatelessWidget {
                 errorBorder: InputBorder.none,
                 // prefixText: 'Recherche des produits',
                 disabledBorder: InputBorder.none,
-                hintText: 'Rechercher des produits',
+                hintText: 'חפש מוצרים ספציפים',
                 hintStyle: TextStyle()),
           ),
         ),

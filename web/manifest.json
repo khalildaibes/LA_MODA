@@ -1,15 +1,14 @@
 {
-    "name": "owanto_app",
-    "short_name": "owanto_app",
+    "name": "lamoda_app",
+    "short_name": "lamoda_app",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "A new la moda store app.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
-    "icons": [
-        {
+    "icons": [{
             "src": "icons/Icon-192.png",
             "sizes": "192x192",
             "type": "image/png"

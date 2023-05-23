@@ -14,8 +14,10 @@ class HeaderBody extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 15),
       child: Row(
         children: [
+          Icon(Icons.arrow_back_ios),
+          Spacer(),
           Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
               const SizedBox(height: 20),
               Text(
@@ -30,6 +32,8 @@ class HeaderBody extends StatelessWidget {
               ),
               Text(
                 description,
+                textDirection: TextDirection.rtl,
+                textAlign: TextAlign.right,
                 style: AppFont.regular.copyWith(
                   fontSize: 13,
                   color: Colors.grey,
@@ -38,8 +42,6 @@ class HeaderBody extends StatelessWidget {
               ),
             ],
           ),
-          Spacer(),
-          Icon(Icons.arrow_forward_ios)
         ],
       ),
     );

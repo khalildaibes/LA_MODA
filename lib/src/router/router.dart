@@ -66,7 +66,7 @@ class Routes {
       default:
         return _generateMaterialRoute(Center(
           child: Text(
-            "On Unknown Router",
+            "נתיב לא ידוע",
             style: TextStyle(
               color: Colors.red,
               fontSize: 25,

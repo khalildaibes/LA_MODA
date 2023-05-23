@@ -23,19 +23,19 @@ class CartViewModel extends ChangeNotifier {
         ),
       );
       productCount = listCart.length;
-      print('EMPTY ${productCount}');
+      print('ריק ${productCount}');
     } else {
       for (int i = 0; i < listCart.length; i++) {
         var index = listCart[i]
             .product
             ?.inventory
             ?.indexWhere((element) => element.id == inventoryy.id);
-        debugPrint("INDEX ${index}");
+        debugPrint("מספר ${index}");
         if (index != -1) {
           if (listCart[i].quantity < inventoryy.stockQuantity!) {
             listCart[i].quantity++;
           } else {
-            message = "Số lượng không đủ";
+            message = "הכמות לא מספיקה";
           }
         } else {
           isFound = false;
@@ -51,7 +51,7 @@ class CartViewModel extends ChangeNotifier {
       }
 
       productCount += listCart.length;
-      print('NOT EMPTY ${productCount}');
+      print('לא ריק ${productCount}');
     }
     calculatePrice();
     notifyListeners();
@@ -69,7 +69,7 @@ class CartViewModel extends ChangeNotifier {
     if (order.quantity < inventory.stockQuantity!) {
       order.quantity++;
     } else {
-      message = "Số lượng ko đủ";
+      message = "הכמות לא מספיקה";
     }
     calculatePrice();
     notifyListeners();
@@ -94,14 +94,14 @@ class CartViewModel extends ChangeNotifier {
 
   void checkOutCart() {
     listOrder.add(Order(
-        createAt: "12-10-2012",
+        createAt: "12-10-2023",
         total: total.toString(),
         listItemCart: listCart,
         address: Address(
-            userName: "KHOA",
-            addressTitle1: "VO VAN VAN",
-            addressTitle2: "9384932",
-            phone: "97334324"),
+            userName: "נחף",
+            addressTitle1: "כתובת ראשית",
+            addressTitle2: "",
+            phone: "0509977084"),
         orderNumber: "098765456789"));
   }
 }

@@ -57,7 +57,7 @@ class _ChoiceOptionState extends State<ChoiceOption> {
         }).toList(),
       );
     } else {
-      return Text("NO");
+      return Text("לא");
     }
   }
 }

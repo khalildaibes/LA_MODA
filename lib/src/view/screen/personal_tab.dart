@@ -11,11 +11,11 @@ class PersonalTab extends StatefulWidget {
 
 class _PersonalTabState extends State<PersonalTab> {
   Map<String, String> listInfomation = {
-    'Mes Commandes': 'Vous avez 2 commandes en cours',
-    'Addresse de Livraison': '3 address',
-    'Mode de Paiement': 'Visa, Airtel Money ',
-    'Commentaires': '3 Retours de produits',
-    'Langues': 'Francais - Anglais',
+    'ההזמנות שלי': 'יש לך 2 הזמנות ',
+    'כתובת משלוח': 'כתובת ראשית',
+    'שיטות תשלום': 'Visa, Airtel Money ',
+    'התראות': 'יש לך 3 התראות',
+    'שפות': 'עברית',
   };
 
   @override
@@ -30,19 +30,15 @@ class _PersonalTabState extends State<PersonalTab> {
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Container(
-                width: 70,
-                height: 70,
-                child: Icon(Icons.person),
-              ),
               SizedBox(
                 width: 20,
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 5),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
                       "RT56BC",
@@ -54,7 +50,8 @@ class _PersonalTabState extends State<PersonalTab> {
                       height: 5,
                     ),
                     Text(
-                      "email:",
+                      "מספר טלפון:",
+                      textDirection: TextDirection.rtl,
                       style: AppFont.medium.copyWith(
                           fontWeight: FontWeight.w500,
                           color: Colors.grey,
@@ -62,7 +59,12 @@ class _PersonalTabState extends State<PersonalTab> {
                     ),
                   ],
                 ),
-              )
+              ),
+              Container(
+                width: 70,
+                height: 30,
+                child: Icon(Icons.person),
+              ),
             ],
           ),
           Expanded(
@@ -93,20 +95,22 @@ class _PersonalTabState extends State<PersonalTab> {
                     contentPadding: EdgeInsets.all(0.0),
                     title: Text(
                       title,
+                      textAlign: TextAlign.right,
                       style: AppFont.semiBold
                           .copyWith(fontWeight: FontWeight.w500, fontSize: 16),
                     ),
                     subtitle: Text(
                       subtitle,
+                      textAlign: TextAlign.right,
                       style: AppFont.regular.copyWith(
                           fontWeight: FontWeight.w100,
                           fontSize: 12,
                           color: Colors.grey),
                     ),
-                    trailing: IconButton(
+                    leading: IconButton(
                       onPressed: () {},
                       icon: Icon(
-                        Icons.arrow_forward_ios,
+                        Icons.arrow_back_ios,
                         size: 18,
                         color: Colors.grey,
                       ),

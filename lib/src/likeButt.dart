@@ -14,7 +14,6 @@ class MyHome extends StatefulWidget {
 class _MyHomeState extends State<MyHome> {
   List<MyData>? list;
 
-
   @override
   void initState() {
     // TODO: implement initState
@@ -22,6 +21,7 @@ class _MyHomeState extends State<MyHome> {
     list = [];
     for (var i = 0; i < 100; i++) list!.add(MyData());
   }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -34,7 +34,6 @@ class _MyHomeState extends State<MyHome> {
     );
   }
 }
-
 
 class LikeClass extends StatefulWidget {
   final MyData data;

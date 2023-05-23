@@ -31,7 +31,7 @@ class MyOrderScreen extends StatelessWidget {
                     size: 20,
                   )),
               Text(
-                "Mes Commandes",
+                "ההזמנות שלי ",
                 style: AppFont.bold.copyWith(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,

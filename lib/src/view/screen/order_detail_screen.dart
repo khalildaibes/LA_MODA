@@ -10,7 +10,6 @@ class OrderDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -25,7 +24,7 @@ class OrderDetailScreen extends StatelessWidget {
         ),
         backgroundColor: Colors.white,
         title: Text(
-          'Order Details',
+          'פרטי הזמנה',
           style: AppFont.semiBold,
         ),
       ),
@@ -37,7 +36,7 @@ class OrderDetailScreen extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  "Order No: ${order.orderNumber}",
+                  "מספר הזמנה: ${order.orderNumber}",
                   style: AppFont.semiBold.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -54,7 +53,7 @@ class OrderDetailScreen extends StatelessWidget {
               height: 20,
             ),
             Text(
-              '${order.listItemCart!.length} items',
+              '${order.listItemCart!.length} פריטים',
               style: AppFont.medium.copyWith(color: Colors.black, fontSize: 14),
             ),
             SizedBox(
@@ -91,9 +90,8 @@ class OrderDetailScreen extends StatelessWidget {
                           height: 120,
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                              image: NetworkImage(product.urlImage!.first),
-                              fit: BoxFit.cover
-                            ),
+                                image: NetworkImage(product.urlImage!.first),
+                                fit: BoxFit.cover),
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(8),
                                 bottomLeft: Radius.circular(8)),
@@ -131,14 +129,15 @@ class OrderDetailScreen extends StatelessWidget {
                                       text: TextSpan(
                                         children: [
                                           TextSpan(
-                                              text: "Color: ",
+                                              text: "צבע: ",
                                               style: AppFont.regular.copyWith(
                                                 fontSize: 13,
                                                 color: Colors.grey,
                                               ),
                                               children: [
                                                 TextSpan(
-                                                  text:  product.inventory![0].color,
+                                                  text: product
+                                                      .inventory![0].color,
                                                   style:
                                                       AppFont.regular.copyWith(
                                                     fontSize: 13,
@@ -157,14 +156,15 @@ class OrderDetailScreen extends StatelessWidget {
                                       text: TextSpan(
                                         children: [
                                           TextSpan(
-                                              text: "Size: ",
+                                              text: "מידה: ",
                                               style: AppFont.regular.copyWith(
                                                 fontSize: 13,
                                                 color: Colors.grey,
                                               ),
                                               children: [
                                                 TextSpan(
-                                                  text: product.inventory![0].size,
+                                                  text: product
+                                                      .inventory![0].size,
                                                   style:
                                                       AppFont.regular.copyWith(
                                                     fontSize: 13,
@@ -190,14 +190,17 @@ class OrderDetailScreen extends StatelessWidget {
                                       text: TextSpan(
                                         children: [
                                           TextSpan(
-                                              text: "Quantity: ",
+                                              text: "כמות: ",
                                               style: AppFont.regular.copyWith(
                                                 fontSize: 13,
                                                 color: Colors.grey,
                                               ),
                                               children: [
                                                 TextSpan(
-                                                  text: order.listItemCart![index].quantity.toString(),
+                                                  text: order
+                                                      .listItemCart![index]
+                                                      .quantity
+                                                      .toString(),
                                                   style:
                                                       AppFont.regular.copyWith(
                                                     fontSize: 13,
@@ -212,7 +215,7 @@ class OrderDetailScreen extends StatelessWidget {
                                     Align(
                                       alignment: Alignment.bottomRight,
                                       child: Text(
-                                        '${product.price.toString()} VND',
+                                        '${product.price.toString()} ',
                                         textAlign: TextAlign.right,
                                         style: AppFont.medium.copyWith(
                                           fontSize: 13,
@@ -237,7 +240,7 @@ class OrderDetailScreen extends StatelessWidget {
               height: 25,
             ),
             Text(
-              'Order information',
+              'פרטי משלוח',
               style: AppFont.medium.copyWith(
                   color: Colors.black,
                   fontSize: 16,
@@ -246,45 +249,42 @@ class OrderDetailScreen extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            buildOrderInformation(title: "Shipping Address", description: "akndjkdasnndjnajskn"),
-
+            buildOrderInformation(
+                title: "כתובת משלוח", description: "נחף אלעין "),
             SizedBox(
               height: 25,
             ),
-            buildOrderInformation(title: "Payment method", description: "akndjkdasnndjnajskn"),
+            buildOrderInformation(title: "שיטת תשלום", description: "וויזה"),
             SizedBox(
               height: 25,
             ),
-            buildOrderInformation(title: "Total Amount", description: "133"),
-
+            buildOrderInformation(
+                title: "Total Amount", description: "1,500 שח"),
           ],
         ),
       ),
     );
   }
-  Widget buildOrderInformation({required String title,required String description}){
+
+  Widget buildOrderInformation(
+      {required String title, required String description}) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
-          flex: 2 ,
+          flex: 2,
           child: Text(
             '$title:',
             style: AppFont.medium.copyWith(
-                color: Colors.grey,
-                fontSize: 15,
-                fontWeight: FontWeight.w400),
+                color: Colors.grey, fontSize: 15, fontWeight: FontWeight.w400),
           ),
         ),
-
         Expanded(
           flex: 3,
           child: Text(
             description,
             style: AppFont.medium.copyWith(
-                color: Colors.black,
-                fontSize: 15,
-                fontWeight: FontWeight.w500),
+                color: Colors.black, fontSize: 15, fontWeight: FontWeight.w500),
           ),
         ),
       ],

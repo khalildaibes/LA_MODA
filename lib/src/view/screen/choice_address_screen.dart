@@ -32,7 +32,7 @@ class _ChoiceAddressScreenState extends State<ChoiceAddressScreen> {
           ),
         ),
         title: Text(
-          "Addresse de Livraison",
+          "כתובת משלוח",
           style: AppFont.semiBold.copyWith(
             fontWeight: FontWeight.bold,
           ),

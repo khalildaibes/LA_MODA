@@ -19,15 +19,13 @@ class ForgotPassScreen extends StatelessWidget {
                 IconButton(
                     onPressed: () => Navigator.pop(context),
                     alignment: Alignment.topLeft,
-
                     icon: const Icon(
                       Icons.arrow_back_ios_rounded,
                       color: Colors.black,
                       size: 20,
                     )),
-
                 Text(
-                  "Renouvelez votre mot de passe",
+                  "חדש את הסיסמה שלך",
                   style: AppFont.bold.copyWith(
                     color: Colors.black,
                     fontSize: 19,
@@ -37,16 +35,21 @@ class ForgotPassScreen extends StatelessWidget {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * .1,
                 ),
-                Text('Veuillez saisir votre adresse e-mail. Vous recevrez un lien pour créer un nouveau mot de passe par e-mail.',style: AppFont.medium.copyWith(
-                  fontSize: 14,
-                  fontWeight: FontWeight.normal,
-                ), textAlign: TextAlign.center,),
+                Text(
+                  'אנא הכנס את כתובת הדוא"ל שלך. תקבל במייל קישור ליצירת סיסמה חדשה.',
+                  style: AppFont.medium.copyWith(
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
                 SizedBox(
                   height: 20,
                 ),
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(5),

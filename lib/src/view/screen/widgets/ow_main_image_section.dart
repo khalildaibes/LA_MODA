@@ -19,28 +19,28 @@ class MainImageSection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "Obtenez plus de reductions!",
+              "מבצעים חדשים לקיץ לוהט",
               style: AppFont.normal_white,
             ),
             const SizedBox(height: 30),
             Text(
-              "%70 disponible",
+              "%70 הנחה",
               style: AppFont.large_white,
             ),
             const SizedBox(height: 10),
             Text(
-              "Soldes",
+              "חולצות",
               style: AppFont.large_white,
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 10),
             Text(
-              "Nos offres Speciales",
-              style: AppFont.normal_white,
+              "שורטים",
+              style: AppFont.large_white,
             ),
             Spacer(),
             Text(
-              "Pour plus d'informations contactez nous!",
-              style: AppFont.mini_white,
+              "למה אתם מחכים תזמינו ותהנו מהמבצע המטורף",
+              style: AppFont.normal_white,
             ),
           ],
         ),

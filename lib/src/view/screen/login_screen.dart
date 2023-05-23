@@ -1,3 +1,8 @@
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:owanto_app/src/const/app_colors.dart';
@@ -5,6 +10,9 @@ import 'package:owanto_app/src/const/app_font.dart';
 import 'package:owanto_app/src/router/router_path.dart';
 import 'package:owanto_app/src/viewmodel/auth_viemodel.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../const/globals.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -12,9 +20,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final emailController = TextEditingController();
+  final nameController = TextEditingController();
+  final phoneController = TextEditingController();
   final passController = TextEditingController();
   bool isShowPass = false;
+  final _codeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -43,25 +53,33 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 15,
                 ),
                 Center(
-                  child: Text(
-                    "Owant'O",
-                    style: AppFont.bold.copyWith(
-                      color: Colors.cyan.shade800,
-                      fontSize: 42,
-                      fontWeight: FontWeight.w500,
+                    child: Column(
+                  children: [
+                    Text(
+                      "la moda by najwa",
+                      style: AppFont.title_connected.copyWith(
+                        color: Colors.black,
+                        fontSize: 42,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
-                ),
-
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * .15,
-                ),
+                    SvgPicture.asset(
+                      'assets/image/lamodalogo.svg',
+                      height: 100,
+                      width: 300,
+                      fit: BoxFit.scaleDown,
+                    )
+                  ],
+                )),
 
                 // TextFieldAddress(vi
                 //     textEditingController: emailController, lableText: "Email"),
+
+                const SizedBox(height: 10),
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(5),
@@ -73,24 +91,28 @@ class _LoginScreenState extends State<LoginScreen> {
                           offset: Offset(1, 1),
                         ),
                       ]),
-                  child: TextFormField(
-                    controller: emailController,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      labelText: "Email",
-                      alignLabelWithHint: true, // center labastyle
-                      labelStyle: AppFont.regular.copyWith(
-                        fontSize: 13,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w500,
+                  child: Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 30.0, 0),
+                      child: TextFormField(
+                        controller: phoneController,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          labelText: "מספר טלפון",
+                          alignLabelWithHint: false,
+                          labelStyle: AppFont.regular.copyWith(
+                            fontSize: 16,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ),
 
-                const   SizedBox(
-                  height: 10
-                ),
+                const SizedBox(height: 10),
                 Container(
                   width: double.infinity,
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -105,30 +127,35 @@ class _LoginScreenState extends State<LoginScreen> {
                           offset: Offset(1, 1),
                         ),
                       ]),
-                  child: TextFormField(
-                    controller: passController,
-                    obscureText: isShowPass,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      labelText: "Mot de passe",
-                      suffixIcon: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              isShowPass = !isShowPass;
-                            });
-                          },
-                          child: Icon(
-                            isShowPass
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                            size: 16,
-                          )),
-                      alignLabelWithHint: true,
-
-                      labelStyle: AppFont.regular.copyWith(
-                        fontSize: 13,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w500,
+                  child: Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 30.0, 0),
+                      child: TextFormField(
+                        controller: passController,
+                        obscureText: isShowPass,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          labelText: "סיסמה",
+                          alignLabelWithHint: false,
+                          suffixIcon: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  isShowPass = !isShowPass;
+                                });
+                              },
+                              child: Icon(
+                                isShowPass
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                size: 16,
+                              )),
+                          labelStyle: AppFont.regular.copyWith(
+                            fontSize: 16,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -139,26 +166,33 @@ class _LoginScreenState extends State<LoginScreen> {
                 GestureDetector(
                   onTap: () => Navigator.pushNamed(context, ForgotPassScreens),
                   child: Align(
-                    alignment: Alignment.topRight,
-                    child: Text(
-                      "mot de passe oublie?",
-                      style: AppFont.medium.copyWith(
-                        fontSize: 13,
+                    alignment: Alignment.topLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                      child: Text(
+                        "שכחתי את הסיסמה",
+                        style: AppFont.medium.copyWith(
+                          fontSize: 14,
+                        ),
                       ),
                     ),
                   ),
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Checkbox(
                       activeColor: AppColors.primaryColorRed,
                       value: false,
                       onChanged: (value) {},
                     ),
-                    Text(
-                      "Rester connecté?",
-                      style: AppFont.medium.copyWith(
-                        fontSize: 14,
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 30, 0),
+                      child: Text(
+                        "זכור אותי",
+                        style: AppFont.medium.copyWith(
+                          fontSize: 14,
+                        ),
                       ),
                     ),
                   ],
@@ -176,14 +210,20 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(5.0),
                       ),
                     ),
-                    onPressed: () {
-                      // authViewModel.login().then((value) =>
-                      //     Navigator.pushReplacementNamed(
-                      //         context, DashBoardScreens));
-                      Navigator.pushReplacementNamed(context, DashBoardScreens);
+                    onPressed: () async {
+                      await authViewModel.login(
+                              passController.text.toString(),
+                              phoneController.text.toString(),
+                              nameController.text.toString(),
+                              context)
+
+                          // Navigator.pushReplacementNamed(
+                          //     context, RegisterScreens))
+                          ;
+                      // Navigator.pushReplacementNamed(context, DashBoardScreens);
                     },
                     child: Text(
-                      "Se Connecter".toUpperCase(),
+                      "התחברות".toUpperCase(),
                       style: AppFont.medium
                           .copyWith(fontSize: 15, color: Colors.white),
                     ),
@@ -197,13 +237,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Center(
                       child: RichText(
                     text: TextSpan(
-                        text: "Vous n'avez pas de compte? ",
-                        style: AppFont.medium.copyWith(fontSize: 13),
+                        text: "אין לכם חשבון תרשם עכשיו  ",
+                        style: AppFont.medium.copyWith(fontSize: 16),
                         children: [
                           TextSpan(
-                            text: "S'inscrire",
+                            text: " יצירו חשבון עכשיו ",
                             style: AppFont.bold.copyWith(
-                                fontSize: 13, color: AppColors.primaryColorRed),
+                                fontSize: 16, color: AppColors.primaryColorRed),
                           )
                         ]),
                   )),
@@ -214,9 +254,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 Center(
                   child: Text(
-                    'Or',
+                    'או',
                     style: AppFont.medium.copyWith(
-                      fontSize: 13,
+                      fontSize: 16,
                     ),
                   ),
                 ),

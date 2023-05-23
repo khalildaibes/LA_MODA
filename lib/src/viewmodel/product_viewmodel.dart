@@ -5,13 +5,14 @@ import 'package:flutter/material.dart';
 class ProductViewModel extends ChangeNotifier {
   ProductService? productService = ProductService();
   List<Product>? listProduct;
+  List<Product>? listdiscountedProducts;
   List<Product>? listRecent = <Product>[];
   bool isLoading = false;
   int? isLikee = 0;
-  int selectIndex = 0 ;
+  int selectIndex = 0;
   Product? productt;
 
-  Future<List<Product>>? getListProduct()  {
+  Future<List<Product>>? getListProduct() {
     isLoading = true;
     notifyListeners();
     listProduct = productService?.listProduct;
@@ -19,25 +20,23 @@ class ProductViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-   Future likeProduct (Product product)  async {
+  Future likeProduct(Product product) async {
     print(product.title);
-
   }
 
-   addRecentView(Product product){
+  addRecentView(Product product) {
     if (listRecent!.isEmpty) {
       listRecent?.add(product);
-    }  else{
+    } else {
       if (listRecent!.contains(product)) {
-
-      } else{
+      } else {
         listRecent?.add(product);
       }
     }
   }
-  chooseOption(int index){
+
+  chooseOption(int index) {
     selectIndex = index;
     notifyListeners();
   }
-
 }

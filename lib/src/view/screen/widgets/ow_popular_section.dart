@@ -13,9 +13,10 @@ class PopularSection extends StatelessWidget {
   Widget build(BuildContext context) {
     ProductViewModel prductVM = Provider.of(context, listen: false);
     return SizedBox(
-        height: 400,
+        height: 300,
         child: ListView.builder(
           itemCount: prductVM.listProduct?.length,
+          reverse: true,
           padding: EdgeInsets.all(0.0),
           scrollDirection: Axis.horizontal,
           itemBuilder: (_, index) {
