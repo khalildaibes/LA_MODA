@@ -1,19 +1,19 @@
 import 'inventory.dart';
 
 class Product {
-  String? id;
+  String? pid;
   String? title;
   String? description;
   double? price;
   int? amountProduct;
   String? createAt;
   bool? isLike;
-  List<String>? urlImage;
-  String? category;
+  Map<String, String>? urlImage;
+  Map<String, String>? category;
   List<Inventory>? inventory;
 
   Product(
-      {this.id,
+      {this.pid,
       this.title,
       this.description,
       this.price,
@@ -25,15 +25,14 @@ class Product {
       this.inventory});
 
   Product.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    pid = json['pid'];
     title = json['title'];
     description = json['description'];
-    price = json['price'];
-    amountProduct = json['amountProduct'];
+    price = double.parse(json['price']);
+    amountProduct = int.parse(json['amountProduct']);
     createAt = json['createAt'];
-    isLike = json['isLike'];
-    urlImage = json['urlImage'].cast<String>();
-    category = json['category'];
+    urlImage = json['urlImage'].cast<String, String>();
+    category = json['category'].cast<String, String>();
     if (json['inventory'] != null) {
       inventory = [];
       json['inventory'].forEach((v) {
@@ -44,7 +43,7 @@ class Product {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
+    data['pid'] = this.pid;
     data['title'] = this.title;
     data['description'] = this.description;
     data['price'] = this.price;
@@ -60,23 +59,23 @@ class Product {
   }
 
   Product copyWith(
-      {String? id,
+      {String? pid,
       String? title,
       String? description,
       double? price,
       int? amountProduct,
       int? isLike,
       List<String>? urlImage,
-      String? category,
+      List<String>? category,
       List<Inventory>? inventory}) {
     return Product(
-      id: id ?? this.id,
+      pid: pid ?? this.pid,
       title: title ?? this.title,
       description: description ?? this.description,
       price: price ?? this.price,
       amountProduct: amountProduct ?? this.amountProduct,
-      urlImage: urlImage ?? this.urlImage,
-      category: createAt ?? this.category,
+      urlImage: this.urlImage,
+      category: this.category,
       inventory: inventory ?? this.inventory,
     );
   }

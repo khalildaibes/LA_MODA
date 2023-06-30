@@ -7,6 +7,7 @@ import 'package:owanto_app/src/view/screen/widgets/ow_main_image_section.dart';
 import 'package:owanto_app/src/view/screen/widgets/ow_popular_section.dart';
 import 'package:owanto_app/src/view/screen/widgets/ow_tuniques_section.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'component/ow_search_bar/ow_search_bar.dart';
 import 'widgets/ow_banner_photo_section_from_firebase.dart';
 import 'widgets/ow_popular_section_from_firebase.dart';
@@ -41,6 +42,23 @@ class _HomeTabState extends State<HomeTab> {
     return photoUrls;
   }
 
+  Future<bool> last_log_in() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    bool lastlogin = prefs.containsKey('last_log_in');
+    if (lastlogin) {
+      var lastlogindate = prefs.get('last_log_in');
+      DateTime now = DateTime.now();
+      // DateFormat formatter = DateFormat('yyyy-MM-dd');
+      // String formattedDate = formatter.format(now);
+      // print(formattedDate);
+      return true;
+    } else {
+      // Key does not exist in SharedPreferences
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -52,23 +70,23 @@ class _HomeTabState extends State<HomeTab> {
               //ALL WIDGETS ARE FOUND IN WIDGETS FOLDER
               const CustomSearchBar(),
               MainImageSection(),
-              new HomeBannerItemSection(photo_name: "collection"),
+              new HomeBannerItemSection(photo_name: "main banner"),
 
               const SizedBox(height: 10),
               const HeaderBody(
                   title: "קולקצית קיץ",
                   description: "גלו את ה קולקציה החדשה שלנו"),
               // CollectionImageSection(),
-              new HomeHorizontalItemSection(category: "model"),
+              new HomeHorizontalItemSection(category: "summer"),
               const SizedBox(height: 10),
               // ArticlesTitlesSection(),
               const HeaderBody(
-                  title: "מבצעים", description: "גלו את ה קולקציה החדשה שלנו"),
-              new HomeHorizontalItemSection(category: "model"),
-              const HeaderBody(
-                  title: "הכי פופלארי",
+                  title: "הנמכרים ביותר",
                   description: "גלו את ה קולקציה החדשה שלנו"),
-              new HomeHorizontalItemSection(category: "discounts"),
+              new HomeHorizontalItemSection(category: "all time favorite"),
+              const HeaderBody(
+                  title: "הכי חדש", description: "גלו את ה קולקציה החדשה שלנו"),
+              new HomeHorizontalItemSection(category: "brand new"),
               const SizedBox(height: 60),
               TuniqueSection(),
               const SizedBox(height: 200)

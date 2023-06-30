@@ -5,6 +5,9 @@ import 'package:owanto_app/src/const/app_colors.dart';
 import 'package:owanto_app/src/const/app_font.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:owanto_app/src/data/model/User.dart';
+import 'package:owanto_app/src/viewmodel/auth_viemodel.dart';
+import 'package:provider/provider.dart';
 
 import 'component/addaddress/text_field_address.dart';
 
@@ -13,7 +16,37 @@ class RegisterScreen extends StatelessWidget {
   final nameController = TextEditingController();
   final passController = TextEditingController();
 
-  void register_to_db() async {
+  getstream() {
+    debugPrint("hasDFirebaseFirestoreata");
+    return FirebaseFirestore.instance.collection('users').snapshots();
+  }
+
+  Future<bool> getDataCollection(Map<String, dynamic> jsonuser) async {
+    // QuerySnapshot querySnapshot =
+    //     await FirebaseFirestore.instance.collection("users").get();
+    // var list = querySnapshot.docs as List;\
+    bool found = false;
+    CollectionReference _collectionRef =
+        FirebaseFirestore.instance.collection('users');
+
+    // Get docs from collection reference
+    QuerySnapshot querySnapshot = await _collectionRef.get();
+
+    // Get data from docs and convert map to List
+    final allData =
+        querySnapshot.docs.map((doc) => App_User.fromFirestore(doc)).toList();
+    for (App_User element in allData) {
+      if (!found) {
+        element.phone == jsonuser['phone'] ? found = true : found = false;
+      } else {
+        continue;
+      }
+    }
+
+    return found;
+  }
+
+  void register_to_db(context) async {
     const deatils = {
       "nane": "0",
       "phone": "0",
@@ -24,32 +57,19 @@ class RegisterScreen extends StatelessWidget {
       "phone": phoneController.text.toString(),
       "password": passController.text.toString(),
     };
-    var flag = true;
-    StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('users')
-            .orderBy("id")
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            final sessionDataList = snapshot.data;
-            final docs = snapshot.data!.docs
-                .map((doc) => doc.get("phone") == userjson["phone"]
-                    ? flag = true
-                    : flag = flag)
-                .toList();
-            return flag == true ? Text("Ok") : Text("Not Ok");
-          }
-          if (snapshot.hasError) {
-            return Text('${snapshot.error}');
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        });
-    if (!flag) {
-      await FirebaseFirestore.instance.collection('users').doc().set(userjson);
+
+    var found = await getDataCollection(userjson);
+
+    if (found) {
+      debugPrint("found");
+    } else {
+      final AuthViewModel authViewModel = AuthViewModel();
+      debugPrint("here");
+      await authViewModel.login(
+          passController.text.toString(),
+          phoneController.text.toString(),
+          nameController.text.toString(),
+          context);
     }
   }
 
@@ -127,7 +147,7 @@ class RegisterScreen extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                      register_to_db();
+                      register_to_db(context);
                     },
                     child: Text(
                       "הרשמה".toUpperCase(),

@@ -11,7 +11,7 @@ class CartItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cartViewModel = Provider.of<CartViewModel>(context,listen: true);
+    final cartViewModel = Provider.of<CartViewModel>(context, listen: true);
     return Container(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -22,8 +22,7 @@ class CartItem extends StatelessWidget {
             height: 120,
             decoration: BoxDecoration(
               image: DecorationImage(
-                  image: NetworkImage(
-                      order.product!.urlImage![0]),
+                  image: NetworkImage(order.product!.urlImage!.values.first),
                   fit: BoxFit.cover),
               borderRadius: BorderRadius.circular(5),
             ),
@@ -60,7 +59,7 @@ class CartItem extends StatelessWidget {
                                   fontSize: 14),
                               children: [
                                 TextSpan(
-                                  text:  order.product!.inventory![0].color,
+                                  text: order.product!.inventory![0].colors,
                                   style: AppFont.regular.copyWith(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w400,
@@ -100,7 +99,8 @@ class CartItem extends StatelessWidget {
                     children: [
                       Container(
                         width: 100,
-                        padding: EdgeInsets.symmetric(horizontal: 10,vertical: 7),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 7),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           color: Colors.grey.withOpacity(.1),
@@ -109,8 +109,9 @@ class CartItem extends StatelessWidget {
                           children: [
                             Flexible(
                               child: InkWell(
-                                onTap: (){
-                                  cartViewModel.increQuantity(order,order.product!.inventory![0]);
+                                onTap: () {
+                                  cartViewModel.increQuantity(
+                                      order, order.product!.inventory![0]);
                                 },
                                 child: Icon(
                                   Icons.add,
@@ -131,7 +132,7 @@ class CartItem extends StatelessWidget {
                             ),
                             Flexible(
                               child: InkWell(
-                                onTap: (){
+                                onTap: () {
                                   cartViewModel.deceQuanity(order);
                                 },
                                 child: Icon(

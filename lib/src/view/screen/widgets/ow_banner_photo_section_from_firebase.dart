@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -39,9 +40,13 @@ class _HomeBannerItemSectionState extends State<HomeBannerItemSection> {
   Widget build(BuildContext context) {
     ProductViewModel prductVM = Provider.of(context, listen: false);
     var result = null;
+    if (prductVM.productService!.loaded_products_list[photo_name] == true) {
+      result = build_items(context, prductVM, photo_name);
+      return result;
+    }
     return FutureBuilder<List<Product>>(
-      future: prductVM.productService
-          ?.fetchPhotosWithPrefix("/home_page/images", photo_name, is_loading),
+      future: prductVM.productService!
+          .get_products_by_prefix(photo_name, is_loading),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Container(
@@ -49,17 +54,21 @@ class _HomeBannerItemSectionState extends State<HomeBannerItemSection> {
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {
-          result = build_items(context, prductVM);
+          result = build_items(context, prductVM, photo_name);
         }
         return result;
       },
     );
   }
 
-  Widget build_items(context, prductVM) {
+  Widget build_items(context, ProductViewModel prductVM, prefix) {
     var result;
-    if (prductVM.productService.listdiscountedProducts != null) {
-      Product? product = prductVM.productService.listdiscountedProducts?[0];
+
+    if (prductVM.productService!.listdiscountedProducts != null) {
+      Product? product = prductVM
+          .productService!.products_objects_list![prefix]!
+          .firstWhere((element) => element.category!.containsValue(prefix));
+      debugPrint(product!.urlImage!.values.first.toString());
       result = SizedBox(
         height: 300,
         width: MediaQuery.of(context).size.height,
@@ -67,14 +76,9 @@ class _HomeBannerItemSectionState extends State<HomeBannerItemSection> {
           padding: const EdgeInsets.all(20.0),
           child: Center(
             child: SizedBox(
-              height: MediaQuery.of(context).size.height * .9,
-              child: Image(
-                fit: BoxFit.cover,
-                image: !product!.urlImage!.first.toString().startsWith("assets")
-                    ? NetworkImage(product!.urlImage!.first.toString())
-                    : AssetImage(product!.urlImage!.first) as ImageProvider,
-              ),
-            ),
+                height: MediaQuery.of(context).size.height * .9,
+                child: Image.file(
+                    File(product!.urlImage!.values.first.toString()))),
           ),
         ),
       );

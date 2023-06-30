@@ -7,6 +7,7 @@ import 'package:owanto_app/src/view/screen/personal_tab.dart';
 import 'package:owanto_app/src/viewmodel/bottom_navigate_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:owanto_app/src/viewmodel/cart_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 import 'home_tab.dart';
@@ -17,17 +18,20 @@ class DashBoardScreen extends StatefulWidget {
 }
 
 class _DashBoardScreenState extends State<DashBoardScreen> {
+  CartViewModel cart = new CartViewModel();
+
   List<Widget> page = [
     HomeTab(),
-    CategoryTab(),
     CartTab(),
+    CategoryTab(),
     FavoriteTab(),
     PersonalTab(),
   ];
 
   @override
   Widget build(BuildContext context) {
-    var bottomProvider = Provider.of<BottomNavigationProvider>(context,listen: true);
+    var bottomProvider =
+        Provider.of<BottomNavigationProvider>(context, listen: true);
     return Scaffold(
       backgroundColor: Colors.white,
       body: page[bottomProvider.currentIndex],
@@ -39,16 +43,18 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           unselectedItemColor: Colors.grey.shade400,
-          selectedItemColor: Colors.black87 ,
+          selectedItemColor: Colors.black87,
           currentIndex: bottomProvider.currentIndex,
-          onTap: (int index){
-            bottomProvider.changePageTab =index;
+          onTap: (int index) {
+            bottomProvider.changePageTab = index;
           },
-          items: const  [
+          items: const [
             BottomNavigationBarItem(
               label: '',
               activeIcon: Icon(Icons.home),
-              icon: Icon(Icons.home_outlined,),
+              icon: Icon(
+                Icons.home_outlined,
+              ),
             ),
             BottomNavigationBarItem(
               label: '',
@@ -57,18 +63,18 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
             ),
             BottomNavigationBarItem(
               label: '',
-              activeIcon:  Icon(Icons.shopping_bag),
-              icon:  Icon(Icons.shopping_bag_outlined),
+              activeIcon: Icon(Icons.shopping_bag),
+              icon: Icon(Icons.shopping_bag_outlined),
             ),
             BottomNavigationBarItem(
               label: '',
-              activeIcon:  Icon(Icons.favorite),
-              icon:  Icon(Icons.favorite_outline),
+              activeIcon: Icon(Icons.favorite),
+              icon: Icon(Icons.favorite_outline),
             ),
             BottomNavigationBarItem(
               label: '',
               activeIcon: Icon(Icons.person_rounded),
-              icon:  Icon(Icons.person_outline_rounded),
+              icon: Icon(Icons.person_outline_rounded),
             ),
           ],
         ),

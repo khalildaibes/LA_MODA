@@ -28,6 +28,7 @@ class App_User {
         phone: json['phone'],
         notifications: json['notifications']);
   }
+  
   App_User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];

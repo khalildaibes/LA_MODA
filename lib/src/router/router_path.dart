@@ -13,3 +13,4 @@ const String ForgotPassScreens = "ForgotPassScreens";
 const String OtpScreens = "OtpScreens";
 const String ChangePassScreens = "ChangePassScreens";
 const String DashBoardScreens = "DashBoardScreens";
+const String CartScreen = "CartScreen";

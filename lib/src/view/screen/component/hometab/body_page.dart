@@ -34,7 +34,7 @@ class _BodyPageState extends State<BodyPage> {
                 padding: EdgeInsets.all(0.0),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (_, index) {
-                  Product? product = prductVM.listProduct![index];
+                  Product? product = prductVM.listProduct!["model"]![index];
                   return InkWell(
                     onTap: () {
                       prductVM.addRecentView(product);
@@ -67,7 +67,7 @@ class _BodyPageState extends State<BodyPage> {
                 padding: EdgeInsets.all(0.0),
                 scrollDirection: Axis.vertical,
                 itemBuilder: (_, index) {
-                  Product? product = prductVM.listProduct![index];
+                  Product? product = prductVM.listProduct!["model"]![index];
                   return InkWell(
                     onTap: () {
                       prductVM.addRecentView(product);

@@ -8,13 +8,15 @@ import 'component/carttab/cart_scroll.dart';
 class CartTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     return SafeArea(
       child: Container(
         child: Consumer<CartViewModel>(
           builder: (BuildContext context, value, Widget? child) {
-            return value.listCart.isNotEmpty ? CartScroll(listCart: value.listCart) : CartEmptyScreen() ;
-          },),
+            return value.listCart.isNotEmpty
+                ? CartScroll(listCart: value.listCart)
+                : CartEmptyScreen();
+          },
+        ),
       ),
     );
   }

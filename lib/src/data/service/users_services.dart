@@ -9,13 +9,14 @@ import 'package:owanto_app/src/data/model/product.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 List<Inventory>? inventories = [
-  Inventory(id: '1', color: 'blue', size: '23'),
-  Inventory(id: '2', color: 'black', size: '35'),
-  Inventory(id: '3', color: 'blue', size: '41'),
+  Inventory(pid: '1', colors: 'blue', size: '23'),
+  Inventory(pid: '2', colors: 'black', size: '35'),
+  Inventory(pid: '3', colors: 'blue', size: '41'),
 ];
 
-class ProductService extends ChangeNotifier {
+class UserService extends ChangeNotifier {
   List<Product> listdiscountedProducts = [];
+  User? currentUser;
   List<App_User> users_list = [];
   Map<String, List<Product>> Users_info_list = {};
 
@@ -30,9 +31,5 @@ class ProductService extends ChangeNotifier {
       }
     });
     return users_list;
-  }
-
-  Future<List<Product>> getListdicountProduct() async {
-    return listdiscountedProducts;
   }
 }

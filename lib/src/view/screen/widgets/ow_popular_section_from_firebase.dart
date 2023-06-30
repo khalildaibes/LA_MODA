@@ -19,11 +19,11 @@ class HomeHorizontalItemSection extends StatefulWidget {
     Key? key,
     required this.category,
   }) : super(key: key);
-  get_products(context, productVM) async {
-    ProductViewModel prductVM = Provider.of(context, listen: false);
-    // prductVM.listdiscountedProducts = await prductVM.productService
-    //     ?.fetchPhotosWithPrefix("/home_page/images", "model") as List<Product>?;
-  }
+  // get_products(context, productVM) async {
+  //   ProductViewModel prductVM = Provider.of(context, listen: false);
+  //   prductVM.listdiscountedProducts = await prductVM.productService
+  //       ?.get_products_by_prefix("model", true) as List<Product>?;
+  // }
 }
 
 class _HomeHorizontalItemSectionState extends State<HomeHorizontalItemSection> {
@@ -41,9 +41,14 @@ class _HomeHorizontalItemSectionState extends State<HomeHorizontalItemSection> {
   Widget build(BuildContext context) {
     ProductViewModel prductVM = Provider.of(context, listen: false);
     var result = null;
+    if (prductVM.productService!.loaded_products_list[category] == true) {
+      result = build_items(context, prductVM, category);
+      return result;
+    }
+
     return FutureBuilder<List<Product>>(
-      future: prductVM.productService
-          ?.fetchPhotosWithPrefix("/home_page/images", category, is_loading),
+      future:
+          prductVM.productService!.get_products_by_prefix(category, is_loading),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Container(
@@ -60,18 +65,19 @@ class _HomeHorizontalItemSectionState extends State<HomeHorizontalItemSection> {
 
   Widget build_items(context, prductVM, category) {
     var result;
-    if (prductVM.productService.listdiscountedProducts != null) {
+
+    if (prductVM.productService.products_objects_list[category] != null) {
+      List<Product> products_list = prductVM
+          .productService.products_objects_list[category] as List<Product>;
       result = SizedBox(
           height: 300,
           child: ListView.builder(
-            itemCount: prductVM.productService.products_list[category]?.length,
+            itemCount: products_list.length,
             reverse: true,
             padding: EdgeInsets.all(0.0),
             scrollDirection: Axis.horizontal,
             itemBuilder: (_, index) {
-              Product? product =
-                  prductVM.productService.products_list[category]?[index];
-              return ProductItemCase(product: product);
+              return ProductItemCase(product: products_list[index]);
             },
           ));
     } else {

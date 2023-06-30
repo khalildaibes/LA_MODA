@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:owanto_app/src/const/app_colors.dart';
 import 'package:owanto_app/src/const/app_font.dart';
+import 'package:owanto_app/src/data/model/User.dart';
 import 'package:owanto_app/src/router/router_path.dart';
 import 'package:owanto_app/src/viewmodel/auth_viemodel.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +26,36 @@ class _LoginScreenState extends State<LoginScreen> {
   final passController = TextEditingController();
   bool isShowPass = false;
   final _codeController = TextEditingController();
+  Future<bool> getDataCollection(Map<String, dynamic> jsonuser) async {
+    // QuerySnapshot querySnapshot =
+    //     await FirebaseFirestore.instance.collection("users").get();
+    // var list = querySnapshot.docs as List;\
+    bool found = false;
+    CollectionReference _collectionRef =
+        FirebaseFirestore.instance.collection('users');
+
+    // Get docs from collection reference
+    QuerySnapshot querySnapshot = await _collectionRef.get();
+
+    // Get data from docs and convert map to List
+    final allData =
+        querySnapshot.docs.map((doc) => App_User.fromFirestore(doc)).toList();
+    for (App_User element in allData) {
+      if (!found) {
+        if (element.phone == jsonuser['phone']) {
+          found = true;
+        } else {
+          found = false;
+        }
+      } else {
+        continue;
+      }
+    }
+    // if (!found) {
+    //   _collectionRef.add(jsonuser);
+    // }
+    return found;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,15 +71,6 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                IconButton(
-                    onPressed: () => Navigator.pop(context),
-                    alignment: Alignment.topLeft,
-                    padding: const EdgeInsets.all(0.0),
-                    icon: const Icon(
-                      Icons.arrow_back_ios_rounded,
-                      color: Colors.black,
-                      size: 20,
-                    )),
                 const SizedBox(
                   height: 15,
                 ),
@@ -211,15 +233,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     onPressed: () async {
-                      await authViewModel.login(
-                              passController.text.toString(),
-                              phoneController.text.toString(),
-                              nameController.text.toString(),
-                              context)
+                      Map<String, dynamic> userjson = {
+                        "name": nameController.text.toString(),
+                        "phone": phoneController.text.toString(),
+                        "password": passController.text.toString(),
+                      };
+                      if (await getDataCollection(userjson)) {
+                        Navigator.pushNamed(context, DashBoardScreens);
+                      }
 
-                          // Navigator.pushReplacementNamed(
-                          //     context, RegisterScreens))
-                          ;
+                      // Navigator.pushReplacementNamed(
+                      //     context, RegisterScreens))
+                      ;
                       // Navigator.pushReplacementNamed(context, DashBoardScreens);
                     },
                     child: Text(

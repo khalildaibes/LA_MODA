@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 
 class ProductViewModel extends ChangeNotifier {
   ProductService? productService = ProductService();
-  List<Product>? listProduct;
+  Map<String, List<Product>>? listProduct;
   List<Product>? listdiscountedProducts;
+  List<Product>? listlikedProducts = <Product>[];
   List<Product>? listRecent = <Product>[];
   bool isLoading = false;
   int? isLikee = 0;
@@ -15,7 +16,7 @@ class ProductViewModel extends ChangeNotifier {
   Future<List<Product>>? getListProduct() {
     isLoading = true;
     notifyListeners();
-    listProduct = productService?.listProduct;
+    listProduct = productService?.products_objects_list;
     isLoading = false;
     notifyListeners();
   }

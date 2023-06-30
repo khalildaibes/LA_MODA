@@ -1,8 +1,1 @@
-copy discounts for most puoplar.
-copy discounts for the images in the home TAP   
-add address to the db 
-add payment method
-save orders 
-add coupons
-favorits to local storage 
-cart to local storage.
+change the products to be the products from the products list.

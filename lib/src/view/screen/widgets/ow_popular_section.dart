@@ -20,7 +20,7 @@ class PopularSection extends StatelessWidget {
           padding: EdgeInsets.all(0.0),
           scrollDirection: Axis.horizontal,
           itemBuilder: (_, index) {
-            Product? product = prductVM.listProduct![index];
+            Product? product = prductVM.listProduct!["model"]![index];
             return ProductItemCase(product: product);
           },
         ));

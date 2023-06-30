@@ -90,7 +90,8 @@ class OrderDetailScreen extends StatelessWidget {
                           height: 120,
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                                image: NetworkImage(product.urlImage!.first),
+                                image: NetworkImage(
+                                    product.urlImage!.values.first),
                                 fit: BoxFit.cover),
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(8),
@@ -137,7 +138,7 @@ class OrderDetailScreen extends StatelessWidget {
                                               children: [
                                                 TextSpan(
                                                   text: product
-                                                      .inventory![0].color,
+                                                      .inventory![0].colors,
                                                   style:
                                                       AppFont.regular.copyWith(
                                                     fontSize: 13,

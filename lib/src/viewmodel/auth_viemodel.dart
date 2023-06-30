@@ -27,41 +27,64 @@ class AuthViewModel extends ChangeNotifier {
       "phone": phone,
       "password": pass,
     };
-    var flag = true;
-    StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('users')
-            .orderBy("id")
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            final sessionDataList = snapshot.data;
-            final docs = snapshot.data!.docs
-                .map((doc) => doc.get("phone") == userjson["phone"]
-                    ? flag = true
-                    : flag = flag)
-                .toList();
-            return flag == true ? Text("Ok") : Text("Not Ok");
-          }
-          if (snapshot.hasError) {
-            return Text('${snapshot.error}');
-          } else {
-            print("here1");
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        });
-    if (!flag) {
-      await FirebaseFirestore.instance.collection('users').doc().set(userjson);
-    }
+    CollectionReference _collectionRef =
+        FirebaseFirestore.instance.collection('users');
+
+    _collectionRef.add(userjson);
   }
 
-  void getToken() async {
-    await FirebaseMessaging.instance.getToken().then((token) {
-      mtoken = token;
-      saveToken(token);
-    });
+  // void getToken() async {
+//     await FirebaseMessaging.instance.getToken().then((token) {
+//       mtoken = token;
+//       saveToken(token);
+//     });
+//   }
+//   UserCredential userCredentialFromString(String userCredentialString) {
+//   final lines = userCredentialString.split('\n');
+
+//   final user = User(
+//     uid: getValue(lines[2]),
+//     email: getValue(lines[3]),
+//     phoneNumber: getValue(lines[4]),
+//     displayName: getValue(lines[5]),
+//     photoURL: getValue(lines[6]),
+//     providerId: getValue(lines[7]),
+//   );
+
+//   final additionalUserInfo = AdditionalUserInfo(
+//     providerId: getValue(lines[10]),
+//     username: getValue(lines[11]),
+//     // Add more properties as needed
+//   );
+
+//   return UserCredential(user: user, additionalUserInfo: additionalUserInfo);
+// }
+
+  String getValue(String line) {
+    return line.substring(line.indexOf(':') + 1).trim();
+  }
+
+  String userCredentialToString(UserCredential userCredential) {
+    if (userCredential == null) return '';
+
+    User? user = userCredential.user;
+    final additionalUserInfo = userCredential.additionalUserInfo;
+
+    final buffer = StringBuffer();
+    buffer.writeln('UserCredential:');
+    buffer.writeln('  User:');
+    buffer.writeln('    UID: ${user!.uid}');
+    buffer.writeln('    Email: ${user!.email}');
+    buffer.writeln('    Phone Number: ${user!.phoneNumber}');
+    buffer.writeln('    Display Name: ${user!.displayName}');
+    buffer.writeln('    Photo URL: ${user!.photoURL}');
+    buffer.writeln('    Provider ID: ${userCredential.credential!.providerId}');
+    buffer.writeln('  Additional User Info:');
+    buffer.writeln('    Provider ID: ${additionalUserInfo!.providerId}');
+    buffer.writeln('    Username: ${additionalUserInfo!.username}');
+    // Add more properties as needed
+
+    return buffer.toString();
   }
 
   void saveToken(String? token) async {
@@ -74,37 +97,18 @@ class AuthViewModel extends ChangeNotifier {
     print("ok");
   }
 
-  Future<bool> login(pass, phone, name, contxt) async {
+  Future<bool> login(pass, uncoded_phone, name, context) async {
     FirebaseAuth _auth = FirebaseAuth.instance;
-    phone = "+972" + phone.toString().substring(1);
+    String phone = "+972" + uncoded_phone.toString().substring(1);
     print(phone);
 
     _auth.verifyPhoneNumber(
       phoneNumber: phone,
       timeout: Duration(seconds: 60),
       verificationCompleted: (AuthCredential credential) async {
-        UserCredential result = await _auth.signInWithCredential(credential);
-
-        User? user = result.user;
-
-        if (user != null) {
-          await setCurrentUser(user);
-          if (result.additionalUserInfo!.isNewUser == true) {
-            register_to_db(name, pass, phone);
-          }
-          if (_remember_me) {
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            prefs.setString('uid', result.user!.uid);
-          }
-          getToken();
-
-          Navigator.pushReplacementNamed(contxt, DashBoardScreens);
-
-          print("here1");
-        } else {
-          print("Error");
-        }
-
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('userToken', credential.token.toString());
+        Navigator.pushNamed(context, DashBoardScreens);
         //This callback would gets called when verification is done auto maticlly
       },
       verificationFailed: (FirebaseAuthException exception) {
@@ -112,7 +116,7 @@ class AuthViewModel extends ChangeNotifier {
       },
       codeSent: (String verificationId, [int? forceResendingToken]) {
         showDialog(
-            context: contxt,
+            context: context,
             barrierDismissible: false,
             builder: (context) {
               return Directionality(
@@ -161,14 +165,12 @@ class AuthViewModel extends ChangeNotifier {
                               User? user = result.user;
 
                               if (user != null) {
+                                register_to_db(
+                                    name, pass, uncoded_phone.toString());
+                                SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
                                 isLoggedIn = true;
-                                setCurrentUser(result);
-                                if (result.additionalUserInfo!.isNewUser ==
-                                    true) {
-                                  register_to_db(name, pass, phone);
-                                }
-                                Navigator.pushReplacementNamed(
-                                    context, DashBoardScreens);
+                                Navigator.pushNamed(context, DashBoardScreens);
                               } else {
                                 print("Error");
                               }

@@ -1,5 +1,5 @@
+import 'dart:io';
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:badges/badges.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -17,6 +17,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
+import 'cart_tab.dart';
+
 class DetailProductScreen extends StatefulWidget {
   final Product? product;
 
@@ -32,7 +34,12 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
   @override
   Widget build(BuildContext context) {
     final cartViewModel = Provider.of<CartViewModel>(context, listen: true);
-    final authViewModel = Provider.of<AuthViewModel>(context, listen: true);
+    final authViewModel = "kha";
+    // Provider.of<AuthViewModel>(context, listen: true);
+    ProductViewModel prductVM = Provider.of(context, listen: false);
+    File file = File(widget.product!.urlImage!.values.first.toString());
+    Image image = Image.file(file);
+    ImageProvider<Object> imageProvider = image.image;
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -65,6 +72,7 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
           IconButton(
               onPressed: () {
                 Navigator.pop(context);
+                Navigator.pushNamed(context, CartScreen);
               },
               icon: Badge(
                 badgeColor: AppColors.primaryColorRed,
@@ -85,8 +93,64 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                child: Image.network(widget.product!.urlImage![0]),
+              // Container(
+              //   decoration: BoxDecoration(
+              //     image: DecorationImage(
+              //       scale: 25 / 3,
+              //       fit: BoxFit.contain,
+              //       image: imageProvider,
+              //     ),
+              //   ),
+
+              //   // ,Image.network(widget.product!.urlImage![0]),
+              // ),
+              Ink(
+                height: MediaQuery.of(context).size.height * .4,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    scale: 6 / 5,
+                    fit: BoxFit.contain,
+                    image: imageProvider,
+                  ),
+                ),
+                child: InkWell(
+                  onTap: () {
+                    //   if (widget.product != null) {
+                    //     if (prductVM.listlikedProducts == null) {
+                    //       prductVM.listlikedProducts = [widget.product!];
+                    //     }
+                    //     if (!prductVM.listlikedProducts!
+                    //         .contains(widget.product)) {
+                    //       prductVM.listlikedProducts!.add(widget.product!);
+                    //     }
+                    //     CartViewModel cartVM =
+                    //         Provider.of(context, listen: false);
+
+                    //     Inventory inv = new Inventory(
+                    //         id: "10",
+                    //         color: "red",
+                    //         colorValue: "#F00",
+                    //         size: "XL",
+                    //         stockQuantity: 2);
+                    //     // cartVM.addToCart(product!, inv);
+                    //     Navigator.pushNamed(context, DetailProductScreens,
+                    //         arguments: widget.product);
+                    //   }
+                    //   final snackBar = SnackBar(
+                    //     content: const Text(
+                    //         'שמחים שאהבתה יש מוצרים דומים ב מוצעיםכנס תדבוק.'),
+                    //     action: SnackBarAction(
+                    //       label: 'Undo',
+                    //       onPressed: () {
+                    //         // Some code to undo the change.
+                    //       },
+                    //     ),
+                    //   );
+                    //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  },
+                  splashColor: Colors.brown.withOpacity(0.5),
+                ),
               ),
               SizedBox(height: 20),
               Padding(
@@ -114,7 +178,7 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                       height: 5,
                     ),
                     Text(
-                      widget.product!.category!,
+                      widget.product!.category!.values.first,
                       style: AppFont.regular.copyWith(
                           fontWeight: FontWeight.normal,
                           fontSize: 13,
@@ -128,7 +192,7 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                         RatingBar.builder(
                           initialRating: 5,
                           direction: Axis.horizontal,
-                          itemSize: 15,
+                          itemSize: 20,
                           itemCount: 5,
                           ignoreGestures: true,
                           itemBuilder: (context, _) => Icon(
@@ -149,12 +213,7 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                       height: 15,
                     ),
                     Text(
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi eget massa ac tellus mattis aliquet ac eu ex. Sed in ex iaculis, mattis ex a, dapibus lectus. "
-                      "Suspendisse aliquam ipsum sit amet nibh lacinia, vel laoreet velit facilisis.  "
-                      "a elementum magna vulputate ut. Nullam vestibulum justo laoreet accumsan efficitur ,"
-                      "  fermentum maximus sapien. Phasellus quis ipsum magna. Sed in convallis nibh, "
-                      "ut vehicula augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi placerat facilisis metus. Morbi lacinia in"
-                      " enim quis dignissim. Aenean enim justo, tristique at fringilla sed, consequat dapibus orci. Aenean elit urna, porta id ultrices tempus, mollis sed velit.",
+                      widget.product!.description.toString(),
                       style: AppFont.regular.copyWith(
                           fontWeight: FontWeight.w400,
                           fontSize: 15,
@@ -206,11 +265,18 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                   ),
                 ),
                 onPressed: () {
-                  if (authViewModel.isLoggedIn == false) {
-                    Navigator.pushNamed(context, LoginScreens);
-                  } else {
+                  // if (authViewModel.isLoggedIn == false) {
+                  //   Navigator.pushNamed(context, LoginScreens);
+                  // } else {
+                  if (widget.product!.inventory != null) {
+                    inventory = Inventory();
                     showChooseSize(ctx, widget.product);
+                  } else {
+                    Fluttertoast.showToast(
+                        msg: "אין במלאי כרגע,  סחורה בדרך נעדכן בקרוב.");
                   }
+
+                  // }
                 },
                 child: Text(
                   "הוספה לסל".toUpperCase(),
@@ -262,6 +328,7 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                       Text(
                         "מידה",
                         style: AppFont.semiBold.copyWith(fontSize: 20),
+                        textAlign: TextAlign.right,
                       ),
                       SizedBox(
                         height: 18,
@@ -269,45 +336,54 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                       Row(
                         children: [
                           Expanded(
-                            child: Padding(
-                                padding: const EdgeInsets.only(
-                                    right: 15, bottom: 15),
+                            child: Center(
+                                // padding: const EdgeInsets.only(
+                                //     right: 15, bottom: 15),
                                 child: ChangeNotifierProvider.value(
-                                  value: productViewModel,
-                                  child: Consumer<ProductViewModel>(
-                                    builder: (BuildContext context, productVM,
-                                        Widget? child) {
-                                      return ChoiceOption(
-                                        listSize: product!.inventory!
-                                            .map((e) => e.size!)
-                                            .toSet()
-                                            .toList(),
-                                        onSelectCallBack: (value) {
-                                          var size = product.inventory!
-                                              .firstWhere((element) =>
-                                                  element.size == value);
-                                          if (size != null) {
-                                            inventory?.size = size.size;
-                                            // print(inventory?.size);
-                                          }
-                                          var a = product.inventory?.firstWhere(
-                                              (element) =>
-                                                  element.color ==
-                                                      inventory?.color &&
-                                                  element.size ==
-                                                      inventory?.size,
-                                              orElse: () => Inventory());
-                                          if (a?.id != null) {
-                                            print('ok');
-                                          } else {
-                                            Fluttertoast.showToast(
-                                                msg: "אין מידות");
-                                          }
-                                        },
-                                      );
+                              value: productViewModel,
+                              child: Consumer<ProductViewModel>(
+                                builder: (BuildContext context, productVM,
+                                    Widget? child) {
+                                  if (widget.product!.inventory == null) {
+                                    Fluttertoast.showToast(
+                                        msg:
+                                            "אין במלאי כרגע סחורה בדרך נעדכן בקרוב.");
+                                    return Container();
+                                  }
+                                  return ChoiceOption(
+                                    listSize: widget.product!.inventory!
+                                        .map((e) => e.size!)
+                                        .toSet()
+                                        .toList(),
+                                    onSelectCallBack: (value) {
+                                      var size = widget.product!.inventory!
+                                          .firstWhere((element) =>
+                                              element.size == value);
+                                      if (size != null) {
+                                        inventory?.size = size.size;
+                                        // print(inventory?.size);
+                                      }
+                                      if (inventory?.colors != null) {
+                                        var a = widget.product!.inventory
+                                            ?.firstWhere(
+                                                (element) =>
+                                                    element.colors ==
+                                                        inventory?.colors &&
+                                                    element.size ==
+                                                        inventory?.size,
+                                                orElse: () => Inventory());
+                                        if (a?.pid != null) {
+                                          print('ok');
+                                        } else {
+                                          Fluttertoast.showToast(
+                                              msg: "אין מידות");
+                                        }
+                                      }
                                     },
-                                  ),
-                                )),
+                                  );
+                                },
+                              ),
+                            )),
                           ),
                         ],
                       ),
@@ -316,6 +392,7 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                       ),
                       Text(
                         "צבעים",
+                        textAlign: TextAlign.right,
                         style: AppFont.semiBold.copyWith(fontSize: 20),
                       ),
                       SizedBox(
@@ -324,44 +401,59 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                       Row(
                         children: [
                           Expanded(
-                            child: Padding(
-                                padding: const EdgeInsets.only(
-                                    right: 15, bottom: 15),
+                            child: Center(
+                                // padding: const EdgeInsets.only(
+                                //     right: 15, bottom: 15),
                                 child: ChangeNotifierProvider.value(
-                                  value: productViewModel,
-                                  child: Consumer<ProductViewModel>(
-                                    builder: (BuildContext context, productVM,
-                                        Widget? child) {
-                                      return ChoiceOption(
-                                        listSize: product!.inventory!
-                                            .map((e) => e.color!)
-                                            .toSet()
-                                            .toList(),
-                                        onSelectCallBack: (value) {
+                              value: productViewModel,
+                              child: Consumer<ProductViewModel>(
+                                builder: (BuildContext context, productVM,
+                                    Widget? child) {
+                                  if (widget.product!.inventory == null) {
+                                    return Container();
+                                  }
+                                  return Container(
+                                    child: ChoiceOption(
+                                      listSize: product!.inventory!
+                                          .map((e) => e.colors!)
+                                          .toSet()
+                                          .toList(),
+                                      onSelectCallBack: (value) {
+                                        try {
                                           var size = product.inventory!
                                               .firstWhere((element) =>
-                                                  element.color == value);
+                                                  element.colors == value);
                                           if (size != null) {
-                                            inventory?.color = size.color;
+                                            if (product.inventory!
+                                                .contains(size))
+                                              inventory?.colors = size.colors;
+
                                             // print(inventory?.color);
                                           }
-                                          a = product.inventory?.firstWhere(
-                                              (element) =>
-                                                  element.color ==
-                                                      inventory?.color &&
-                                                  element.size ==
-                                                      inventory?.size);
-                                          print(a?.id);
-                                          if (a != null) {
-                                            print(a?.stockQuantity);
-                                          } else {
-                                            print('f');
+                                          if (inventory?.size != null) {
+                                            a = product.inventory!.firstWhere(
+                                                (element) =>
+                                                    element.colors ==
+                                                        inventory?.colors &&
+                                                    element.size ==
+                                                        inventory?.size);
+                                            print(a?.pid);
+                                            if (a != null) {
+                                              print(a?.stockQuantity);
+                                            } else {
+                                              print('f');
+                                            }
                                           }
-                                        },
-                                      );
-                                    },
-                                  ),
-                                )),
+                                        } catch (e) {
+                                          Fluttertoast.showToast(
+                                              msg: "אין מידות");
+                                        }
+                                      },
+                                    ),
+                                  );
+                                },
+                              ),
+                            )),
                           ),
                         ],
                       ),
@@ -387,14 +479,10 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                           // String? color = product.inventory![productViewModel.selectIndex].color;
                           Provider.of<CartViewModel>(ctx, listen: false)
                               .addToCart(product!, a!);
-                          if (Provider.of<CartViewModel>(ctx, listen: false)
-                                  .message !=
-                              null) {
-                            Fluttertoast.showToast(
-                                msg: Provider.of<CartViewModel>(ctx,
-                                        listen: false)
-                                    .message);
-                          }
+                          Fluttertoast.showToast(
+                              msg:
+                                  Provider.of<CartViewModel>(ctx, listen: false)
+                                      .message);
                         },
                         child: Text(
                           "הוספה לסל".toUpperCase(),

@@ -13,6 +13,7 @@ class CartViewModel extends ChangeNotifier {
   double total = 0;
   int productCount = 0;
   List<Order> listOrder = [];
+  Cart cart = Cart();
 
   addToCart(Product product, Inventory inventoryy) {
     productCount = 0;
@@ -26,10 +27,10 @@ class CartViewModel extends ChangeNotifier {
       print('ריק ${productCount}');
     } else {
       for (int i = 0; i < listCart.length; i++) {
-        var index = listCart[i]
-            .product
-            ?.inventory
-            ?.indexWhere((element) => element.id == inventoryy.id);
+        var index = listCart[i].product?.inventory?.indexWhere((element) =>
+            element.pid == inventoryy.pid &&
+            element.size == inventoryy.size &&
+            element.colors == inventoryy.colors);
         debugPrint("מספר ${index}");
         if (index != -1) {
           if (listCart[i].quantity < inventoryy.stockQuantity!) {

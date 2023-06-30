@@ -4,6 +4,7 @@ import 'package:owanto_app/src/data/model/order.dart';
 import 'package:owanto_app/src/data/model/product.dart';
 import 'package:owanto_app/src/router/router_path.dart';
 import 'package:owanto_app/src/view/screen/add_address_screen.dart';
+import 'package:owanto_app/src/view/screen/cart_tab.dart';
 import 'package:owanto_app/src/view/screen/change_pass_screen.dart';
 import 'package:owanto_app/src/view/screen/checkout_screen.dart';
 import 'package:owanto_app/src/view/screen/choice_address_screen.dart';
@@ -55,6 +56,8 @@ class Routes {
         return _generateMaterialRoute(SplashScreen());
       case LoginScreens:
         return _generateMaterialRoute(LoginScreen());
+      case CartScreen:
+        return _generateMaterialRoute(CartTab());
       case RegisterScreens:
         return _generateMaterialRoute(RegisterScreen());
       case ForgotPassScreens:

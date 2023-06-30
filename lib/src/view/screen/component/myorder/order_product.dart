@@ -34,11 +34,11 @@ class OrderProduct extends StatelessWidget {
             height: 120,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage(order.listItemCart!.first.product!.urlImage![0]),
-                fit: BoxFit.cover
-              ),
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(8),
-                  bottomLeft: Radius.circular(8)),
+                  image: NetworkImage(order
+                      .listItemCart!.first.product!.urlImage!.values.first),
+                  fit: BoxFit.cover),
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(8), bottomLeft: Radius.circular(8)),
             ),
           ),
           SizedBox(
@@ -81,8 +81,7 @@ class OrderProduct extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                ]
-                            ),
+                                ]),
                           ],
                         ),
                       ),
@@ -103,8 +102,7 @@ class OrderProduct extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                ]
-                            ),
+                                ]),
                           ],
                         ),
                       ),

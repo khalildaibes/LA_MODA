@@ -1,41 +1,40 @@
 class Inventory {
-  String? id;
-  String? color;
-  String? colorValue;
+  String? pid;
+  String? colors;
+  String? colors_hex;
   String? size;
   int? stockQuantity;
 
   Inventory(
-      {this.id, this.color, this.colorValue, this.size, this.stockQuantity});
+      {this.pid, this.colors, this.colors_hex, this.size, this.stockQuantity});
 
   Inventory.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    color = json['color'];
-    colorValue = json['color_value'];
+    pid = json['pid'];
+    colors = json['colors'];
+    colors_hex = json['colors_hex'];
     size = json['size'];
-    stockQuantity = json['stock_quantity'];
+    stockQuantity = int.parse(json['stock_quantity']);
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['color'] = this.color;
-    data['color_value'] = this.colorValue;
+    data['pid'] = this.pid;
+    data['colors'] = this.colors;
+    data['colors_hex'] = this.colors_hex;
     data['size'] = this.size;
     data['stock_quantity'] = this.stockQuantity;
     return data;
   }
 
   Inventory copyWith({
-    String? id,
-    String? color,
-    String? colorValue,
+    String? pid,
+    String? colors,
+    String? colors_hex,
     String? size,
     int? stockQuantity,
   }) {
     return Inventory(
-      id: id ?? this.id,
-      stockQuantity: stockQuantity ?? this.stockQuantity
-    );
+        pid: pid ?? this.pid,
+        stockQuantity: stockQuantity ?? this.stockQuantity);
   }
 }
