@@ -13,7 +13,7 @@ class TextFieldAddress extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(5),
@@ -27,6 +27,7 @@ class TextFieldAddress extends StatelessWidget {
           ]),
       child: TextFormField(
         controller: textEditingController,
+        textDirection: TextDirection.rtl,
         decoration: InputDecoration(
           border: InputBorder.none,
           labelText: lableText,

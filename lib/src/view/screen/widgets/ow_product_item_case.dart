@@ -18,6 +18,9 @@ class ProductItemCase extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (product!.category == "summer") {
+      debugPrint(product!.urlImage.toString());
+    }
     ProductViewModel prductVM = Provider.of(context, listen: false);
     File file = File(product!.urlImage!.values.first.toString());
     Image image = Image.file(file);
@@ -33,11 +36,11 @@ class ProductItemCase extends StatelessWidget {
         children: [
           Ink(
             height: 200,
-            width: 200,
+            width: 150,
             decoration: BoxDecoration(
               image: DecorationImage(
                 scale: 25 / 3,
-                fit: BoxFit.contain,
+                fit: BoxFit.fill,
                 image: imageProvider,
               ),
             ),
@@ -52,27 +55,20 @@ class ProductItemCase extends StatelessWidget {
                   }
                   CartViewModel cartVM = Provider.of(context, listen: false);
 
-                  Inventory inv = new Inventory(
-                      pid: "10",
-                      colors: "red",
-                      colors_hex: "#F00",
-                      size: "XL",
-                      stockQuantity: 2);
-                  // cartVM.addToCart(product!, inv);
                   Navigator.pushNamed(context, DetailProductScreens,
                       arguments: product);
                 }
-                final snackBar = SnackBar(
-                  content: const Text(
-                      'שמחים שאהבתה יש מוצרים דומים ב מוצעיםכנס תדבוק.'),
-                  action: SnackBarAction(
-                    label: 'Undo',
-                    onPressed: () {
-                      // Some code to undo the change.
-                    },
-                  ),
-                );
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                // final snackBar = SnackBar(
+                //   content: const Text(
+                //       'שמחים שאהבתה יש מוצרים דומים ב מוצעיםכנס תדבוק.'),
+                //   action: SnackBarAction(
+                //     label: 'Undo',
+                //     onPressed: () {
+                //       // Some code to undo the change.
+                //     },
+                //   ),
+                // );
+                // ScaffoldMessenger.of(context).showSnackBar(snackBar);
               },
               splashColor: Colors.brown.withOpacity(0.5),
             ),
@@ -87,7 +83,9 @@ class ProductItemCase extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(product!.title!.substring(0, 10) + "..."),
+                Text(product!.title!.length > 15
+                    ? product!.title!.substring(0, 15) + "..."
+                    : product!.title!.toString()),
                 IconButton(
                   icon: Icon(Icons.favorite_border_sharp),
                   onPressed: () {

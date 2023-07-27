@@ -239,6 +239,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         "password": passController.text.toString(),
                       };
                       if (await getDataCollection(userjson)) {
+                        
+                        setCurrentUser(userjson);
                         Navigator.pushNamed(context, DashBoardScreens);
                       }
 

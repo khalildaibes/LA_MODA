@@ -75,7 +75,7 @@ class OrderProduct extends StatelessWidget {
                                 ),
                                 children: [
                                   TextSpan(
-                                    text: "3",
+                                    text: order.listItemCart!.length.toString(),
                                     style: AppFont.semiBold.copyWith(
                                       fontSize: 13,
                                       fontWeight: FontWeight.bold,

@@ -115,7 +115,7 @@ class OrderDetailScreen extends StatelessWidget {
                                   height: 9,
                                 ),
                                 Text(
-                                  'Mango',
+                                  product.description.toString(),
                                   style: AppFont.medium.copyWith(
                                       color: Colors.grey,
                                       fontSize: 13,
@@ -251,7 +251,8 @@ class OrderDetailScreen extends StatelessWidget {
               height: 20,
             ),
             buildOrderInformation(
-                title: "כתובת משלוח", description: "נחף אלעין "),
+                title: "כתובת משלוח",
+                description: order.address!.addressTitle1.toString()),
             SizedBox(
               height: 25,
             ),
@@ -260,7 +261,7 @@ class OrderDetailScreen extends StatelessWidget {
               height: 25,
             ),
             buildOrderInformation(
-                title: "Total Amount", description: "1,500 שח"),
+                title: "Total Amount", description: order.total.toString()),
           ],
         ),
       ),

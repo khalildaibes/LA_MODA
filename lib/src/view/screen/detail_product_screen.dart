@@ -8,6 +8,7 @@ import 'package:owanto_app/src/const/app_font.dart';
 import 'package:owanto_app/src/data/model/inventory.dart';
 import 'package:owanto_app/src/data/model/product.dart';
 import 'package:owanto_app/src/router/router_path.dart';
+import 'package:owanto_app/src/view/screen/dash_board_screen.dart';
 import 'package:owanto_app/src/viewmodel/auth_viemodel.dart';
 import 'package:owanto_app/src/viewmodel/cart_viewmodel.dart';
 import 'package:owanto_app/src/viewmodel/choice_chip.dart';
@@ -17,6 +18,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
+import '../../viewmodel/bottom_navigate_provider.dart';
 import 'cart_tab.dart';
 
 class DetailProductScreen extends StatefulWidget {
@@ -71,8 +73,13 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
           ),
           IconButton(
               onPressed: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, CartScreen);
+                // Navigator.pop(context);
+                var bottomProvider = Provider.of<BottomNavigationProvider>(
+                    context,
+                    listen: false);
+                bottomProvider.currentIndex = 1;
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => DashBoardScreen()));
               },
               icon: Badge(
                 badgeColor: AppColors.primaryColorRed,

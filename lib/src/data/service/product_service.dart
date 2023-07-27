@@ -97,9 +97,18 @@ class ProductService extends ChangeNotifier {
       products_objects_list[prefix] = products_objects_list[prefix]!;
       for (Product element in products_objects_list[prefix]!) {
         for (var photo_url in element.urlImage!.entries) {
-          Reference ref = FirebaseStorage.instance.refFromURL(photo_url.value);
-          element.urlImage![photo_url.key] = await savePhotoLocally(
-              ref, prefix, element, photo_url.key.toString());
+          if (photo_url.value.toString().contains("gs://") ||
+              photo_url.value.toString().contains("http")) {
+            try {
+              Reference ref =
+                  FirebaseStorage.instance.refFromURL(photo_url.value);
+              element.urlImage![photo_url.key] = await savePhotoLocally(
+                  ref, prefix, element, photo_url.key.toString());
+            } on Exception catch (e) {
+              debugPrint("error getting the url for procuct " +
+                  element.pid.toString());
+            }
+          }
         }
       }
       this.products_objects_list = products_objects_list;

@@ -1,5 +1,6 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:owanto_app/src/view/screen/widgets/ow_articles_titles_section.dart';
 import 'package:owanto_app/src/view/screen/widgets/ow_collection_image_section.dart';
 import 'package:owanto_app/src/view/screen/widgets/ow_header_title.dart';
@@ -69,7 +70,14 @@ class _HomeTabState extends State<HomeTab> {
             children: [
               //ALL WIDGETS ARE FOUND IN WIDGETS FOLDER
               const CustomSearchBar(),
-              MainImageSection(),
+
+              SvgPicture.asset(
+                'assets/image/lamodalogo.svg',
+                height: 150,
+                width: 300,
+                fit: BoxFit.cover,
+              ),
+              // MainImageSection(),
               new HomeBannerItemSection(photo_name: "main banner"),
 
               const SizedBox(height: 10),
@@ -77,7 +85,7 @@ class _HomeTabState extends State<HomeTab> {
                   title: "קולקצית קיץ",
                   description: "גלו את ה קולקציה החדשה שלנו"),
               // CollectionImageSection(),
-              new HomeHorizontalItemSection(category: "summer"),
+              new HomeHorizontalItemSection(category: "antica jeans"),
               const SizedBox(height: 10),
               // ArticlesTitlesSection(),
               const HeaderBody(

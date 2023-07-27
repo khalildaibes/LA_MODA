@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:owanto_app/src/const/app_font.dart';
 import 'package:owanto_app/src/router/router_path.dart';
+import 'package:owanto_app/src/viewmodel/cart_viewmodel.dart';
 import 'package:owanto_app/src/viewmodel/product_viewmodel.dart';
 import 'package:provider/provider.dart';
 
@@ -11,16 +12,22 @@ class PersonalTab extends StatefulWidget {
 
 class _PersonalTabState extends State<PersonalTab> {
   Map<String, String> listInfomation = {
-    'ההזמנות שלי': 'יש לך 2 הזמנות ',
+    'ההזמנות שלי': 'יש לך cartViewModel הזמנות ',
     'כתובת משלוח': 'כתובת ראשית',
     'שיטות תשלום': 'Visa, Airtel Money ',
-    'התראות': 'יש לך 3 התראות',
+    'התראות': 'יש לך 0 התראות',
     'שפות': 'עברית',
   };
 
   @override
   Widget build(BuildContext context) {
+    final cartViewModel = Provider.of<CartViewModel>(context, listen: false);
+    // final notificationViewModel = Provider.of<Notification>(context, listen: false);
     var productVM = Provider.of<ProductViewModel>(context, listen: false);
+    for (var item in listInfomation.entries) {
+      listInfomation[item.key] = item.value.replaceFirst(
+          "cartViewModel", cartViewModel.listOrder.length.toString());
+    }
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       child: Column(

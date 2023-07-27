@@ -1,9 +1,15 @@
+import 'dart:math';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:owanto_app/src/const/globals.dart';
 import 'package:owanto_app/src/data/model/address.dart';
 import 'package:owanto_app/src/data/model/inventory.dart';
 import 'package:owanto_app/src/data/model/cart.dart';
 import 'package:owanto_app/src/data/model/order.dart';
 import 'package:owanto_app/src/data/model/product.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:owanto_app/src/viewmodel/address_viewmodel.dart';
+import 'package:provider/provider.dart';
 
 class CartViewModel extends ChangeNotifier {
   List<Cart> listCart = [];
@@ -93,16 +99,27 @@ class CartViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void checkOutCart() {
+  void checkOutCart(context) {
+    var random = Random();
+    var min = 1000000000;
+    var max = 4294967296;
+    var randomNumber = min + random.nextInt(max - min);
+    print(randomNumber);
+    var user = getCurrentUser();
+
+    final addressViewModel =
+        Provider.of<AddressViewModel>(context, listen: false);
     listOrder.add(Order(
         createAt: "12-10-2023",
         total: total.toString(),
         listItemCart: listCart,
         address: Address(
-            userName: "נחף",
-            addressTitle1: "כתובת ראשית",
-            addressTitle2: "",
-            phone: "0509977084"),
-        orderNumber: "098765456789"));
+            userName: user!["name"].toString(),
+            addressTitle1:
+                addressViewModel.listAddress.first.addressTitle1 ?? "",
+            addressTitle2:
+                addressViewModel.listAddress.first.addressTitle2 ?? "",
+            phone: user["phone"].toString()),
+        orderNumber: randomNumber.toString()));
   }
 }

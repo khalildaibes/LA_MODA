@@ -87,15 +87,15 @@ class AuthViewModel extends ChangeNotifier {
     return buffer.toString();
   }
 
-  void saveToken(String? token) async {
-    await FirebaseFirestore.instance
-        .collection("UsersToken")
-        .doc(getCurrentUser()!.uid.toString())
-        .set({
-      'token': token,
-    });
-    print("ok");
-  }
+  // void saveToken(String? token) async {
+  //   await FirebaseFirestore.instance
+  //       .collection("UsersToken")
+  //       .doc(getCurrentUser()!.uid.toString())
+  //       .set({
+  //     'token': token,
+  //   });
+  //   print("ok");
+  // }
 
   Future<bool> login(pass, uncoded_phone, name, context) async {
     FirebaseAuth _auth = FirebaseAuth.instance;
@@ -165,6 +165,7 @@ class AuthViewModel extends ChangeNotifier {
                               User? user = result.user;
 
                               if (user != null) {
+                                setCurrentUser(user);
                                 register_to_db(
                                     name, pass, uncoded_phone.toString());
                                 SharedPreferences prefs =

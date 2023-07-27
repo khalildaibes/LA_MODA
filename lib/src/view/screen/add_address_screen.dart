@@ -11,10 +11,10 @@ class AddAddressScreen extends StatelessWidget {
   final phoneController = TextEditingController();
   final addressDetailController = TextEditingController();
 
-
   @override
   Widget build(BuildContext context) {
-    final addressViewModel = Provider.of<AddressViewModel>(context,listen: false);
+    final addressViewModel =
+        Provider.of<AddressViewModel>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -28,36 +28,34 @@ class AddAddressScreen extends StatelessWidget {
           ),
         ),
         title: Text(
-          "Add Shipping Address",
+          "הוספת כתובת משלוח",
           style: AppFont.semiBold.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 13,vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 13, vertical: 10),
         child: Column(
           children: [
             SizedBox(
               height: 10,
             ),
             TextFieldAddress(
-
-                textEditingController: nameController,
-                lableText: "Full name",
-                ),
+              textEditingController: nameController,
+              lableText: "שם מלא",
+            ),
             SizedBox(
               height: 18,
             ),
             TextFieldAddress(
-                textEditingController: phoneController,
-                lableText: "Phone"),
+                textEditingController: phoneController, lableText: "מס טלפון"),
             SizedBox(
               height: 18,
             ),
             TextFieldAddress(
                 textEditingController: addressDetailController,
-                lableText: "Address Description"),
+                lableText: "מיקום"),
             SizedBox(
               height: 40,
             ),
@@ -73,11 +71,18 @@ class AddAddressScreen extends StatelessWidget {
                   textStyle: AppFont.medium.copyWith(
                     fontSize: 15,
                     fontWeight: FontWeight.normal,
-                  ),),
+                  ),
+                ),
                 onPressed: () {
-                  addressViewModel.addAddress(Address(id: "",userName: nameController.text,phone: phoneController.text,addressTitle1: addressDetailController.text,addressTitle2: ""));
+                  addressViewModel.addAddress(Address(
+                      id: "",
+                      userName: nameController.text,
+                      phone: phoneController.text,
+                      addressTitle1: addressDetailController.text,
+                      addressTitle2: ""));
+                  Navigator.pop(context);
                 },
-                child: Text('save address'.toUpperCase()),
+                child: Text('שמירת מיקום'.toUpperCase()),
               ),
             ),
           ],
@@ -85,5 +90,4 @@ class AddAddressScreen extends StatelessWidget {
       ),
     );
   }
-
 }

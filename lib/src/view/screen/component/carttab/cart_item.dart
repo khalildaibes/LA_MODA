@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:owanto_app/src/const/app_font.dart';
 import 'package:owanto_app/src/data/model/cart.dart';
 import 'package:owanto_app/src/viewmodel/cart_viewmodel.dart';
@@ -12,21 +14,14 @@ class CartItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartViewModel = Provider.of<CartViewModel>(context, listen: true);
+    File file = File(order.product!.urlImage!["1"].toString());
+    Image image = Image.file(file);
+    ImageProvider<Object> imageProvider = image.image;
     return Container(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Container(
-            width: 120,
-            height: 120,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: NetworkImage(order.product!.urlImage!.values.first),
-                  fit: BoxFit.cover),
-              borderRadius: BorderRadius.circular(5),
-            ),
-          ),
           SizedBox(
             width: 15,
           ),
@@ -48,22 +43,25 @@ class CartItem extends StatelessWidget {
                     height: 10,
                   ),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       RichText(
+                        textDirection: TextDirection.rtl,
                         text: TextSpan(children: [
                           TextSpan(
-                              text: "Color: ",
+                              text: "צבע: ",
                               style: AppFont.regular.copyWith(
                                   color: Colors.grey,
                                   fontWeight: FontWeight.w400,
-                                  fontSize: 14),
+                                  fontSize: 16),
                               children: [
                                 TextSpan(
                                   text: order.product!.inventory![0].colors,
                                   style: AppFont.regular.copyWith(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w400,
-                                      fontSize: 14),
+                                      fontSize: 16),
                                 )
                               ]),
                         ]),
@@ -72,20 +70,21 @@ class CartItem extends StatelessWidget {
                         width: 5,
                       ),
                       RichText(
+                        textDirection: TextDirection.rtl,
                         text: TextSpan(children: [
                           TextSpan(
-                              text: "Size: ",
+                              text: "מידה: ",
                               style: AppFont.regular.copyWith(
                                   color: Colors.grey,
                                   fontWeight: FontWeight.w400,
-                                  fontSize: 14),
+                                  fontSize: 16),
                               children: [
                                 TextSpan(
                                   text: order.product!.inventory![0].size,
                                   style: AppFont.regular.copyWith(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w400,
-                                      fontSize: 14),
+                                      fontSize: 16),
                                 )
                               ]),
                         ]),
@@ -97,6 +96,8 @@ class CartItem extends StatelessWidget {
                   ),
                   Row(
                     children: [
+                      Text("${order.product!.price!} ₪"),
+                      Spacer(),
                       Container(
                         width: 100,
                         padding:
@@ -144,15 +145,28 @@ class CartItem extends StatelessWidget {
                             ),
                           ],
                         ),
-                      ),
-                      Spacer(),
-                      Text("${order.product!.price!} \$")
+                      )
                     ],
                   ),
                 ],
               ),
             ),
-          )
+          ),
+          Ink(
+            height: 100,
+            width: 100,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                scale: 25 / 3,
+                fit: BoxFit.contain,
+                image: imageProvider,
+              ),
+            ),
+            child: InkWell(
+              onTap: () {},
+              splashColor: Colors.brown.withOpacity(0.5),
+            ),
+          ),
         ],
       ),
     );
