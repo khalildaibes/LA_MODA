@@ -30,12 +30,22 @@ class MyOrderScreen extends StatelessWidget {
                     color: Colors.black,
                     size: 20,
                   )),
-              Text(
-                "ההזמנות שלי ",
-                style: AppFont.bold.copyWith(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                ),
+              Row(
+                children: [
+                  Spacer(),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+                    child: Text(
+                      "ההזמנות שלי ",
+                      textAlign: TextAlign.start,
+                      textDirection: TextDirection.rtl,
+                      style: AppFont.bold.copyWith(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
               ),
               SizedBox(
                 height: 20,

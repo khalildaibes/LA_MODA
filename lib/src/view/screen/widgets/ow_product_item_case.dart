@@ -11,18 +11,29 @@ import 'package:owanto_app/src/viewmodel/product_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:owanto_app/src/router/router_path.dart';
 
-class ProductItemCase extends StatelessWidget {
-  final Product? product;
-
-  const ProductItemCase({Key? key, required this.product}) : super(key: key);
+class ProductItemCase extends StatefulWidget {
+  final Product product;
+  Widget border_icon = Icon(Icons.favorite_border_rounded);
+  Widget colored_icon = Icon(Icons.favorite, color: Colors.red);
+  bool flag = false;
+  ProductItemCase(this.product);
 
   @override
+  _ProductItemCase createState() => new _ProductItemCase();
+}
+
+class _ProductItemCase extends State<ProductItemCase> {
+  @override
   Widget build(BuildContext context) {
-    if (product!.category == "summer") {
-      debugPrint(product!.urlImage.toString());
+    if (widget.product!.category == "summer") {
+      debugPrint(widget.product!.urlImage.toString());
     }
     ProductViewModel prductVM = Provider.of(context, listen: false);
-    File file = File(product!.urlImage!.values.first.toString());
+
+    if (prductVM.listlikedProducts!.contains(widget.product)) {
+      widget.flag = true;
+    }
+    File file = File(widget.product.urlImage!.values.first.toString());
     Image image = Image.file(file);
     ImageProvider<Object> imageProvider = image.image;
     return Container(
@@ -46,18 +57,10 @@ class ProductItemCase extends StatelessWidget {
             ),
             child: InkWell(
               onTap: () {
-                if (product != null) {
-                  if (prductVM.listlikedProducts == null) {
-                    prductVM.listlikedProducts = [product!];
-                  }
-                  if (!prductVM.listlikedProducts!.contains(product)) {
-                    prductVM.listlikedProducts!.add(product!);
-                  }
-                  CartViewModel cartVM = Provider.of(context, listen: false);
+                CartViewModel cartVM = Provider.of(context, listen: false);
+                Navigator.pushNamed(context, DetailProductScreens,
+                    arguments: widget.product);
 
-                  Navigator.pushNamed(context, DetailProductScreens,
-                      arguments: product);
-                }
                 // final snackBar = SnackBar(
                 //   content: const Text(
                 //       'שמחים שאהבתה יש מוצרים דומים ב מוצעיםכנס תדבוק.'),
@@ -83,21 +86,52 @@ class ProductItemCase extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(product!.title!.length > 15
-                    ? product!.title!.substring(0, 15) + "..."
-                    : product!.title!.toString()),
+                Text(
+                  widget.product!.title!.length > 15
+                      ? widget.product!.title!.substring(0, 15) + "..."
+                      : widget.product!.title!.toString(),
+                  textAlign: TextAlign.end,
+                ),
                 IconButton(
-                  icon: Icon(Icons.favorite_border_sharp),
+                  icon: widget.flag == true
+                      ? widget.colored_icon
+                      : widget.border_icon,
+                  splashColor: Colors.red.withOpacity(0.5),
                   onPressed: () {
-                    print("DEBUG: Like button Pressed");
+                    if (widget.product != null) {
+                      if (prductVM.listlikedProducts == null) {
+                        prductVM.listlikedProducts = [widget.product!];
+                      }
+                      if (!prductVM.listlikedProducts!
+                          .contains(widget.product)) {
+                        if (widget.flag) {
+                          prductVM.listlikedProducts!.remove(widget.product!);
+                        } else {
+                          prductVM.listlikedProducts!.add(widget.product!);
+                        }
+                      } else {
+                        if (widget.flag) {
+                          prductVM.listlikedProducts!.remove(widget.product!);
+                        } else {
+                          prductVM.listlikedProducts!.add(widget.product!);
+                        }
+                      }
+                      setState(() {
+                        widget.flag = !widget.flag;
+                      });
+                    }
                   },
                 ),
               ],
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 0, horizontal: 15),
-            child: Text(product!.description!.substring(0, 10) + "..."),
+            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
+            child: Text(
+              widget.product!.description!.substring(0, 10) + "...",
+              textAlign: TextAlign.end,
+              textDirection: TextDirection.rtl,
+            ),
           ),
 
           Spacer(),

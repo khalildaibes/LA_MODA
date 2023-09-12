@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
 
 class Category {
-  String? id;
+  String? cid;
   String? name;
-  String? image;
+  String? slogan;
+  String? description;
 
-  Category({this.id,  @required this.name,  @required   this.image});
+  Category(
+      {@required this.cid, @required this.name, this.slogan, this.description});
 
   Category.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    cid = json['cid'];
     name = json['name'];
-    image = json['image'];
+    slogan = json['slogan'];
+    description = json['description'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
+    data['cid'] = this.cid;
     data['name'] = this.name;
-    data['image'] = this.image;
+    data['slogan'] = this.slogan;
+    data['description'] = this.description;
     return data;
   }
 }

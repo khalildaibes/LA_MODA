@@ -153,12 +153,18 @@ class CartScroll extends StatelessWidget {
               ),
               Row(
                 children: [
-                  Text(
-                    "שינוי",
-                    style: AppFont.regular.copyWith(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 12,
-                        color: AppColors.primaryColorRed),
+                  InkWell(
+                    onTap: () {
+                      debugPrint("here should be changed to visa, bit, cash");
+                      // Navigator.pushNamed(context, CheckoutScreens);
+                    },
+                    child: Text(
+                      "שינוי",
+                      style: AppFont.regular.copyWith(
+                          fontWeight: FontWeight.normal,
+                          fontSize: 12,
+                          color: AppColors.primaryColorRed),
+                    ),
                   ),
                   Spacer(),
                   buildTextHeader(title: "שיטת תשלום"),
@@ -223,7 +229,7 @@ class CartScroll extends StatelessWidget {
                   ),
                   Spacer(),
                   Text(
-                    "סיכום",
+                    "סכ״ה",
                     style: AppFont.medium.copyWith(
                         fontWeight: FontWeight.bold,
                         fontSize: 15,
@@ -274,7 +280,12 @@ class CartScroll extends StatelessWidget {
                               fontSize: 15, fontWeight: FontWeight.normal)),
                       onPressed: () {
                         cartViewModel.checkOutCart(context);
-                        // Navigator.pushNamed(context, OrderSuccessScreens),
+                        // here we should add the save cart as order and then
+                        // delete the cart and create a new one.
+                        //each cart that gets a checkout should be saved in cartViewmodel as orderlist
+                        // after this in the myordersscreen the orders shoul be from the saved carts.
+                        // cartViewModel.clearCart();
+                        Navigator.pushNamed(context, OrderSuccessScreens);
                       },
                       child: Text('אישור'),
                     ),

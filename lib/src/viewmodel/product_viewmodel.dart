@@ -36,6 +36,13 @@ class ProductViewModel extends ChangeNotifier {
     }
   }
 
+  listlikedproducts_has_category(String catregory) {
+    for (Product item in listlikedProducts!) {
+      if (item.category!.containsValue(catregory)) return true;
+    }
+    return false;
+  }
+
   chooseOption(int index) {
     selectIndex = index;
     notifyListeners();

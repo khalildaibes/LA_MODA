@@ -274,19 +274,28 @@ class OrderDetailScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
-          flex: 2,
-          child: Text(
-            '$title:',
-            style: AppFont.medium.copyWith(
-                color: Colors.grey, fontSize: 15, fontWeight: FontWeight.w400),
-          ),
-        ),
-        Expanded(
           flex: 3,
           child: Text(
             description,
+            textAlign: TextAlign.end,
+            textDirection: TextDirection.rtl,
             style: AppFont.medium.copyWith(
                 color: Colors.black, fontSize: 15, fontWeight: FontWeight.w500),
+          ),
+        ),
+        Expanded(
+          flex: 2,
+          child: Directionality(
+            textDirection: TextDirection.rtl,
+            child: Text(
+              '$title:',
+              textAlign: TextAlign.end,
+              textDirection: TextDirection.rtl,
+              style: AppFont.medium.copyWith(
+                  color: Colors.grey,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w400),
+            ),
           ),
         ),
       ],

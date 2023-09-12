@@ -1,6 +1,8 @@
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:owanto_app/src/data/model/category.dart' as Category;
 import 'package:owanto_app/src/view/screen/widgets/ow_articles_titles_section.dart';
 import 'package:owanto_app/src/view/screen/widgets/ow_collection_image_section.dart';
 import 'package:owanto_app/src/view/screen/widgets/ow_header_title.dart';
@@ -9,6 +11,7 @@ import 'package:owanto_app/src/view/screen/widgets/ow_popular_section.dart';
 import 'package:owanto_app/src/view/screen/widgets/ow_tuniques_section.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../data/service/category_service.dart';
 import 'component/ow_search_bar/ow_search_bar.dart';
 import 'widgets/ow_banner_photo_section_from_firebase.dart';
 import 'widgets/ow_popular_section_from_firebase.dart';
@@ -60,8 +63,33 @@ class _HomeTabState extends State<HomeTab> {
     }
   }
 
+  Future<List<Category.Category>> get_categories() async {
+    CategoryService categoryService = CategoryService();
+    return await categoryService.get_categories_from_db()
+        as List<Category.Category>;
+  }
+
+  Widget build_category_products(categories) {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: categories!.length,
+      itemBuilder: (context, index) {
+        return Column(children: [
+          const HeaderBody(
+              title: "קולקצית קיץ", description: "גלו את ה קולקציה החדשה שלנו"),
+          // CollectionImageSection(),
+          new HomeHorizontalItemSection(
+              category: categories[index].name ?? "", favorit: false)
+        ]);
+      },
+    );
+
+    // return Text('Error: ${error}');
+  }
+
   @override
   Widget build(BuildContext context) {
+    Future<List<Category.Category>> categories = get_categories();
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -81,20 +109,74 @@ class _HomeTabState extends State<HomeTab> {
               new HomeBannerItemSection(photo_name: "main banner"),
 
               const SizedBox(height: 10),
-              const HeaderBody(
-                  title: "קולקצית קיץ",
-                  description: "גלו את ה קולקציה החדשה שלנו"),
-              // CollectionImageSection(),
-              new HomeHorizontalItemSection(category: "antica jeans"),
-              const SizedBox(height: 10),
-              // ArticlesTitlesSection(),
-              const HeaderBody(
-                  title: "הנמכרים ביותר",
-                  description: "גלו את ה קולקציה החדשה שלנו"),
-              new HomeHorizontalItemSection(category: "all time favorite"),
-              const HeaderBody(
-                  title: "הכי חדש", description: "גלו את ה קולקציה החדשה שלנו"),
-              new HomeHorizontalItemSection(category: "brand new"),
+
+              FutureBuilder<List<Category.Category>>(
+                future: CategoryService().get_categories_from_db(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Container(
+                        height: 50,
+                        child: Center(child: CircularProgressIndicator()));
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    debugPrint(snapshot.data!.length.toString());
+                    debugPrint(snapshot.data!.first.name.toString());
+
+                    // var result = ListView.builder(
+                    //   scrollDirection: Axis.vertical,
+                    //   shrinkWrap: true,
+                    //   itemCount: snapshot.data!.length,
+                    //   itemBuilder: (context, index) {
+                    //     const HeaderBody(
+                    //         title: "קולקצית קיץ",
+                    //         description: "גלו את ה קולקציה החדשה שלנו");
+                    //     // CollectionImageSection(),
+                    //     new HomeHorizontalItemSection(
+                    //         category: snapshot.data![index].name ?? "",
+                    //         favorit: false);
+                    //   },
+                    // );
+                    // debugPrint(result.childrenDelegate.toString());
+                    // return build_category_products(snapshot.data);
+                    return ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, index) {
+                        return Column(children: [
+                          HeaderBody(
+                              title: snapshot.data![index].name.toString(),
+                              description:
+                                  snapshot.data![index].slogan.toString()),
+                          // CollectionImageSection(),
+                          new HomeHorizontalItemSection(
+                              category: snapshot.data![index].name ?? "",
+                              favorit: false)
+                        ]);
+                      },
+                    );
+                  }
+                },
+              ),
+
+              // const HeaderBody(
+              //     title: "קולקצית קיץ",
+              //     description: "גלו את ה קולקציה החדשה שלנו"),
+              // // CollectionImageSection(),
+              // new HomeHorizontalItemSection(
+              //     category: "antica jeans", favorit: false),
+              // const SizedBox(height: 10),
+              // // ArticlesTitlesSection(),
+              // const HeaderBody(
+              //     title: "הנמכרים ביותר",
+              //     description: "גלו את ה קולקציה החדשה שלנו"),
+              // new HomeHorizontalItemSection(
+              //     category: "all time favorite", favorit: false),
+              // const HeaderBody(
+              //     title: "הכי חדש", description: "גלו את ה קולקציה החדשה שלנו"),
+              // new HomeHorizontalItemSection(
+              //     category: "brand new", favorit: false),
               const SizedBox(height: 60),
               TuniqueSection(),
               const SizedBox(height: 200)

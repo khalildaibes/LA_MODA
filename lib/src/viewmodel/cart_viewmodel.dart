@@ -20,6 +20,14 @@ class CartViewModel extends ChangeNotifier {
   int productCount = 0;
   List<Order> listOrder = [];
   Cart cart = Cart();
+  clearCart() {
+    if (!listCart.isEmpty) {
+      listCart.clear();
+      calculatePrice();
+      notifyListeners();
+    }
+    return;
+  }
 
   addToCart(Product product, Inventory inventoryy) {
     productCount = 0;
@@ -109,10 +117,12 @@ class CartViewModel extends ChangeNotifier {
 
     final addressViewModel =
         Provider.of<AddressViewModel>(context, listen: false);
+    // TODO: add the current date and time to the order
+    final now = DateTime.now();
     listOrder.add(Order(
-        createAt: "12-10-2023",
+        createAt: now.toString(),
         total: total.toString(),
-        listItemCart: listCart,
+        listItemCart: listCart.toList(),
         address: Address(
             userName: user!["name"].toString(),
             addressTitle1:
@@ -121,5 +131,6 @@ class CartViewModel extends ChangeNotifier {
                 addressViewModel.listAddress.first.addressTitle2 ?? "",
             phone: user["phone"].toString()),
         orderNumber: randomNumber.toString()));
+    listCart.clear();
   }
 }

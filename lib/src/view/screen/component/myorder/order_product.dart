@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:owanto_app/src/const/app_font.dart';
 import 'package:owanto_app/src/data/model/order.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +13,9 @@ class OrderProduct extends StatelessWidget {
     // int totalProduct = 0;
     // totalProduct += order.listItemCart!.length;
     // print(totalProduct);
-
+    File file = File(order.listItemCart!.first.product!.urlImage!.values.first);
+    Image image = Image.file(file);
+    ImageProvider<Object> imageProvider = image.image;
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -27,16 +31,13 @@ class OrderProduct extends StatelessWidget {
           ]),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Container(
             width: 120,
             height: 120,
             decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: NetworkImage(order
-                      .listItemCart!.first.product!.urlImage!.values.first),
-                  fit: BoxFit.cover),
+              image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(8), bottomLeft: Radius.circular(8)),
             ),
@@ -49,15 +50,18 @@ class OrderProduct extends StatelessWidget {
               padding: const EdgeInsets.all(12),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(
-                    order.listItemCart!.first.product!.title!,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppFont.bold.copyWith(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                    child: Text(
+                      order.listItemCart!.first.product!.title!,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppFont.bold.copyWith(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   SizedBox(

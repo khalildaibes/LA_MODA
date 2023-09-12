@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart' hide Badge;
 import 'package:owanto_app/src/const/app_colors.dart';
 import 'package:owanto_app/src/const/globals.dart';
+import 'package:owanto_app/src/data/service/category_service.dart';
 import 'package:owanto_app/src/data/service/product_service.dart';
 import 'package:owanto_app/src/data/service/users_services.dart';
 import 'package:owanto_app/src/router/router.dart';
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? savedToken = prefs.getString('userToken');
     String? savedPassword = prefs.getString('userPass');
-    CartViewModel cart = new CartViewModel();
+    CartViewModel cart = CartViewModel();
 
     if (savedToken != null && savedToken.isNotEmpty) {
       try {
@@ -70,6 +71,8 @@ class MyApp extends StatelessWidget {
             create: (_) => ProductViewModel()..getListProduct()),
         ChangeNotifierProvider(
             create: (_) => ProductService()..getListdicountProduct()),
+        ChangeNotifierProvider(
+            create: (_) => CategoryService()..get_categories_from_db()),
         ChangeNotifierProvider(create: (_) => AuthViewModel())
       ],
       child: MaterialApp(

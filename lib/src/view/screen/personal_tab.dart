@@ -14,7 +14,7 @@ class _PersonalTabState extends State<PersonalTab> {
   Map<String, String> listInfomation = {
     'ההזמנות שלי': 'יש לך cartViewModel הזמנות ',
     'כתובת משלוח': 'כתובת ראשית',
-    'שיטות תשלום': 'Visa, Airtel Money ',
+    'שיטות תשלום': 'Visa, bit, paybal ',
     'התראות': 'יש לך 0 התראות',
     'שפות': 'עברית',
   };

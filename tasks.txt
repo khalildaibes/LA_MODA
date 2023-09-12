@@ -1,1 +1,10 @@
-change the products to be the products from the products list.
+add search,
+add payments change in check out 
+remove redurant code
+add lagnuages.
+add payments choose/ add method.
+add comments about product.
+add rating for each product.
+add favorit categories.
+add favorite category based on most fouced on.
+add copouns.

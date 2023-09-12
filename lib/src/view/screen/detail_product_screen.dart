@@ -23,8 +23,19 @@ import 'cart_tab.dart';
 
 class DetailProductScreen extends StatefulWidget {
   final Product? product;
+  bool flag = false;
+  Widget border_icon = Icon(
+    Icons.favorite_border_rounded,
+    color: Colors.black,
+    size: 22,
+  );
+  Widget colored_icon = Icon(
+    Icons.favorite,
+    color: Colors.red,
+    size: 22,
+  );
 
-  const DetailProductScreen({Key? key, this.product}) : super(key: key);
+  DetailProductScreen({Key? key, this.product}) : super(key: key);
 
   @override
   _DetailProductScreenState createState() => _DetailProductScreenState();
@@ -41,13 +52,19 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
     ProductViewModel prductVM = Provider.of(context, listen: false);
     File file = File(widget.product!.urlImage!.values.first.toString());
     Image image = Image.file(file);
+
+    if (prductVM.listlikedProducts!.contains(widget.product)) {
+      widget.flag = true;
+    }
+
     ImageProvider<Object> imageProvider = image.image;
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
         leading: IconButton(
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushNamed(context, DashBoardScreens);
           },
           icon: Icon(
             Icons.arrow_back_ios,
@@ -62,14 +79,33 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
         ),
         actions: [
           IconButton(
+            icon:
+                widget.flag == true ? widget.colored_icon : widget.border_icon,
+            splashColor: Colors.red.withOpacity(0.5),
+            color: Colors.black,
             onPressed: () {
-              Navigator.pop(context);
+              if (widget.product != null) {
+                if (prductVM.listlikedProducts == null) {
+                  prductVM.listlikedProducts = [widget.product!];
+                }
+                if (!prductVM.listlikedProducts!.contains(widget.product)) {
+                  if (widget.flag) {
+                    prductVM.listlikedProducts!.remove(widget.product!);
+                  } else {
+                    prductVM.listlikedProducts!.add(widget.product!);
+                  }
+                } else {
+                  if (widget.flag) {
+                    prductVM.listlikedProducts!.remove(widget.product!);
+                  } else {
+                    prductVM.listlikedProducts!.add(widget.product!);
+                  }
+                }
+                setState(() {
+                  widget.flag = !widget.flag;
+                });
+              }
             },
-            icon: Icon(
-              Icons.favorite_border,
-              color: Colors.black,
-              size: 22,
-            ),
           ),
           IconButton(
               onPressed: () {

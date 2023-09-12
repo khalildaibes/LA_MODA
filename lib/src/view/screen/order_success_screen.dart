@@ -64,7 +64,9 @@ class OrderSuccessScreen extends StatelessWidget {
                     fontWeight: FontWeight.normal,
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
                 child: Text('המשך קנייה'.toUpperCase()),
               ),
             ),

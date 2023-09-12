@@ -14,7 +14,7 @@ class CartTab extends StatelessWidget {
           builder: (BuildContext context, value, Widget? child) {
             return value.listCart.isNotEmpty
                 ? CartScroll(listCart: value.listCart)
-                : CartEmptyScreen();
+                : CartEmptyScreen(message: "סל הקניות שלך ריק");
           },
         ),
       ),
