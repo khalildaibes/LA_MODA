@@ -40,6 +40,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
           topRight: Radius.circular(12),
           topLeft: Radius.circular(12),
         ),
+        
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           unselectedItemColor: Colors.grey.shade400,
